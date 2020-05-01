@@ -1,0 +1,39 @@
+<link href='https://fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400' rel='stylesheet' type='text/css'>
+
+<nav class="navbar navbar-expand-lg  navbar-info ">
+    <div class="container">
+        <nav class="shift">
+            <ul class="nav navbar-nav" routerLinkActive="active">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="home">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="my-profil" *ngIf="this.token.getLogin() != null">Mon Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="search">Rechercher</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="contacts">Nos librairies</a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="shift">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="identification" *ngIf="this.token.getLogin() == null">
+                    <a class="nav-link" routerLink="Login">S'identifier</a>
+                </li>
+
+                <li class="inscription" *ngIf="this.token.getLogin() == null">
+                    <a class="nav-link" routerLink="create-user">S'inscrire</a>
+                </li>
+
+                <li class="deconnexion" *ngIf="this.token.getLogin() != null">
+                    <a class="nav-link" routerLink="/" (click)="logout()">Se déconnecter</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</nav>
+

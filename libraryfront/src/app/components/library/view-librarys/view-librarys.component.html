@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="well center">
+        <br>
+        <br>
+        <div class="container-fluid align-content-center">
+            <h4 class="card-title"><span class="title1"> Où sont nos bibliothèques ?</span></h4>
+            <br>
+            <p> Vous pouvez retrouver ici les différentes adresses de nos sites, ainsi que les heures d'ouvertures :</p>
+            <p> Lorsque les bibliothèques sont fermés, vous pouvez déposer les oeuvres dans les boites aux lettres
+                prévues à cet effet.</p><br>
+
+            <div class="card mb-3" style="border-width: 5px; border-color: black" *ngFor="let library of librarys">
+                <br>
+                <div class="row-cols-12 text-center">
+
+                  <div *ngIf="library.id == 1">
+
+
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2894.5418683412727!2d-1.4804148487510176!3d43.
+                    491030370817235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd51408b8345b433%3A0x525d1efa704d0491!2s10%20Rue%20des%20Gouverneurs%2C%2064100%20
+                    Bayonne!5e0!3m2!1sfr!2sfr!4v1582881148054!5m2!1sfr!2sfr"
+                            width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                  </div>
+                  <div *ngIf="library.id == 2">
+
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1447.
+                  3063687437957!2d-1.4729977428478958!3d43.48955162995529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5140920fb7aaf3%3A0xe16cb4ce1af177f2!2s19%20Place%20Paul%20Bert%2C%
+                  2064100%20Bayonne!5e0!3m2!1sfr!2sfr!4v1582880910897!5m2!1sfr!2sfr" width="400" height="300"
+                            frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                  </div>
+                    <div *ngIf="library.id == 3">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2894.423076297491!2d-1.4893842487509688!3d43.49350897065758!2m3!1f0!
+                    2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd51405dfee21
+                    621%3A0xf58fe3b6fbf6276a!2s3%20Rue%20Caroline%20Rimbert%2C%2064100%20Bayonne!5e0!3m2!1sfr!2sfr!4v1582881006040!5m2!1sfr!2sfr"
+                            width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                    </div>
+                      <div *ngIf="library.id == 4">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2894.1672471528923!2d-1.4585661487508395!3d43.
+                    498846470313154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5140c4269edc57%3A0xbc4685c82641b9c9!2s34%20Place%20des%20Gascons%2C%2064100%20Bayonne!
+                    5e0!3m2!1sfr!2sfr!4v1582881063149!5m2!1sfr!2sfr"
+                            width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                      </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title">{{library.name}}</h4>
+                        <h5 class="card-title">Adresse</h5>
+                        <p class="card-text">{{library.adresse}}</p>
+                        <h5 class="card-title">Téléphone</h5>
+                        <p class="card-text">{{library.phone}}</p>
+                        <h5 class="card-title">Horaire</h5>
+                        <p class="card-text">
+                            <strong>Lundi:</strong> 8h-19h,
+                            <strong> Mardi:</strong> 8h-19h,
+                            <strong>Mercredi:</strong> 8h-19h,
+                            <strong> Jeudi:</strong> 8h-19h,
+                            <strong>Vendredi:</strong> 8h-19h,
+                            <strong>Samedi:</strong> 10h-18h,
+                            <strong> Dimanche:</strong> Fermeture
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

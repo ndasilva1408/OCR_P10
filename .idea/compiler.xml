@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="OCR P10" />
+        <module name="book-ms" />
+        <module name="biblio-ms" />
+        <module name="projetOcBibliotheque" />
+        <module name="ZuulGateway" />
+        <module name="billet-ms" />
+        <module name="p10" />
+        <module name="eureka-server" />
+        <module name="client-ms" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ZuulGateway" options="-parameters" />
+      <module name="biblio-ms" options="-parameters" />
+      <module name="billet-ms" options="-parameters" />
+      <module name="book-ms" options="-parameters" />
+      <module name="client-ms" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+    </option>
+  </component>
+</project>

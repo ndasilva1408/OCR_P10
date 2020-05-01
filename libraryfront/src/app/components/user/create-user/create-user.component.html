@@ -1,0 +1,159 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well-block">
+                <div class="well-title">
+
+
+                    <div class="card">
+                        <div class="card-header" style="text-align: center"><h3>Inscription :</h3></div>
+                    </div>
+
+                    <form #f="ngForm" [formGroup]="forms" (ngSubmit)="saveUser()">
+                        <br>
+
+                        <div class="col-md-3">
+                            <div class="form-group"
+                                 [class.has-success]="forms.get('login').valid"
+                                 [class.has-error]="forms.get('login').invalid && forms.get('login').touched">
+                                <div class="alert alert-danger"
+                                     [hidden]="forms.get('login').valid || !forms.get('login').touched">Le login
+                                    doit posséder au moins 2 lettres.
+                                </div>
+                                <label class="control-label">login:</label>
+                                <input class="form-control input-md"
+                                       type="text"
+                                       name="login"
+                                       placeholder="login"
+                                       formControlName="login"
+                                       required
+                                       minlength="2">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('prenom').valid"
+                                     [class.has-error]="forms.get('prenom').invalid && forms.get('prenom').touched">
+                                    <div class="alert alert-danger"
+                                         [hidden]="forms.get('prenom').valid || !forms.get('prenom').touched">Le
+                                        prénom doit posséder au moins 2 lettres.
+                                    </div>
+                                    <label class="control-label">Prénom:</label>
+                                    <input class="form-control"
+                                           type="text"
+                                           name="prenom"
+                                           placeholder="Prénom"
+                                           formControlName="prenom"
+                                           required minlength="2">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('nom').valid"
+                                     [class.has-error]="forms.get('nom').invalid && forms.get('nom').touched">
+                                    <div class="alert alert-danger"
+                                         [hidden]="forms.get('nom').valid || !forms.get('nom').touched">Le nom
+                                        doit posséder au moins 2 lettres.
+                                    </div>
+                                    <label class="control-label">Nom:</label>
+                                    <input class="form-control input-md"
+                                           type="text"
+                                           name="nom"
+                                           placeholder="Nom"
+                                           formControlName="nom"
+                                           required
+                                           minlength="2">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('adresse').valid"
+                                     [class.has-error]="forms.get('adresse').invalid && forms.get('adresse').touched">
+                                    <div class="alert alert-danger"
+                                         [hidden]="forms.get('adresse').valid || !forms.get('adresse').touched">
+                                        L'adresse doit être renseignée
+                                    </div>
+                                    <label class="control-label">Entrez votre addresse postale :</label>
+                                    <input class="form-control input-md"
+                                           type="address"
+                                           name="adresse"
+                                           placeholder="Entrez votre adresse"
+                                           formControlName="adresse"
+                                           minlength="5"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('mail').valid"
+                                     [class.has-error]="forms.get('mail').invalid && forms.get('mail').touched">
+                                    <div class="alert alert-danger"
+                                         [hidden]="forms.get('mail').valid || !forms.get('mail').touched">L'adresse
+                                        email doit être valide (xx@xx.xx)
+                                    </div>
+                                    <label for="email" class="control-label">Email:</label>
+                                    <input required
+                                           id="email"
+                                           name="mail"
+                                           type="email"
+                                           class="form-control"
+                                           formControlName="mail"
+                                           placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('password').valid"
+                                     [class.has-error]="forms.get('password').invalid && forms.get('password').touched">
+                                    <div class="alert alert-danger"
+                                         [hidden]="forms.get('password').valid || !forms.get('password').touched">Le
+                                        password doit contenir au moins 6 caractères ou chiffres.
+                                    </div>
+                                    <label class="control-label">Mot de passe:</label>
+                                    <input class="form-control input-md"
+                                           type="password"
+                                           name="password"
+                                           placeholder="Mot de passe"
+                                           formControlName="password"
+                                           minlength="6"
+                                           required>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br>
+                        <div class="col-md-12" align="right">
+                            <div class="form-group">
+                                <button
+                                        type="submit"
+                                        class="btn btn-primary" [disabled]="forms.invalid">Valider
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

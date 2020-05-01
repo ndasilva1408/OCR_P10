@@ -1,0 +1,44 @@
+.title1 {
+  font-style: italic;
+  font-weight: bolder;
+  font-size: 60px;
+  font-family: 'French Script MT', serif;
+}
+
+.stitle1 {
+  font-family: 'Comic Sans MS', serif;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.card-body {
+  border-width: 0;
+
+}
+.card2 {
+  border-width: 5px;
+  border-color: black;
+  background-color: #5a3d3e;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+
+}
+.card {
+
+  border-width: 5px;
+  border-color: black;
+  background-color: #8e7674;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+
+}
+@media only screen and (max-width: 320px) {
+  .title1 {
+    font-size: 30px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+  }
+}
+
+

@@ -1,0 +1,42 @@
+<br>
+<div class="container">
+  <div class="well-block">
+    <div class="well-title">
+
+      <form [formGroup]="forms" (ngSubmit)="onSubmit()">
+
+        <div class="row">
+
+          <div class="form-group col-6">
+            <div class="alert alert-danger" [hidden]="forms.get('name').valid || !forms.get('name').touched">Le nom doit être renseignée ex: Bibilothèqe de la Mairie.</div>
+            <label class="control-label">Nom</label>
+            <input type="text" class="form-control" formControlName="name"
+                   minlength="5"
+                   required>
+          </div>
+
+          <div class="form-group col-6">
+            <div class="alert alert-danger" [hidden]="forms.get('phone').valid || !forms.get('phone').touched">Le numéro de téléphone doit être valide.</div>
+            <label class="control-label">Téléphone</label>
+            <input type="text" class="form-control" name="phone"  formControlName="phone"
+                   minlength="10"
+                   maxlength="10"
+                   required>
+          </div>
+
+          <div class="form-group col-12">
+            <div class="alert alert-danger" [hidden]="forms.get('adresse').valid || !forms.get('adresse').touched">L'adresse doit être renseignée.</div>
+            <label class="control-label">Adresse</label>
+            <input type="text" class="form-control" name="address"  formControlName="address"
+                   minlength="5"
+                   required>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary" [hidden]="this.forms.invalid">Save</button>
+
+      </form>
+    </div>
+  </div>
+</div>

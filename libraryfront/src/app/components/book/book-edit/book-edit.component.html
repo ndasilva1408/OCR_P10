@@ -1,0 +1,82 @@
+<br>
+<div class="container">
+  <div class="well-block">
+    <div class="well-title">
+
+<form [formGroup]="forms" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+
+    <div class="form-group col-4">
+      <div class="alert alert-danger" [hidden]="forms.get('title').valid || !forms.get('title').touched">Le titre doit être renseigné.</div>
+      <label class="control-label">Titre</label>
+      <input type="text" class="form-control" formControlName="title" required >
+    </div>
+
+    <div class="form-group col-4">
+      <div class="alert alert-danger" [hidden]="forms.get('editor').valid || !forms.get('editor').touched">L'éditeur doit être renseigné.</div>
+      <label class="control-label">Editeur</label>
+      <input type="text" class="form-control" name="editor"  formControlName="editor" required >
+    </div>
+
+    <div class="form-group col-4">
+      <div class="alert alert-danger" [hidden]="forms.get('author').valid || !forms.get('author').touched">L'auteur doit être renseigné.</div>
+      <label class="control-label">Auteur</label>
+      <input type="text" class="form-control" name="author"  formControlName="author"  required>
+    </div>
+
+  </div>
+
+    <div class="row">
+
+      <div class="form-group col-4">
+        <div class="alert alert-danger" [hidden]="forms.get('parution').valid || !forms.get('parution').touched">La date de parution doit être renseignée.</div>
+        <label class="control-label">Parution</label>
+        <input type="date" class="form-control" name="parution"  formControlName="parution" required>
+      </div>
+
+      <div class="form-group col-4">
+        <div class="alert alert-danger" [hidden]="forms.get('gender').valid || !forms.get('gender').touched">Le genre doit être renseigné.</div>
+        <label class="control-label">Genre</label>
+        <input type="text" class="form-control" name="gender"  formControlName="gender" required >
+      </div>
+
+      <div class="form-group col-4">
+        <div class="alert alert-danger" [hidden]="forms.get('picture').valid || !forms.get('picture').touched">Le lien photo doit être renseigné.</div>
+        <label class="control-label">Lien photo</label>
+        <input type="text" class="form-control" name="picture"  formControlName="picture" required >
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="form-group col-6">
+        <div class="alert alert-danger" [hidden]="forms.get('description').valid || !forms.get('description').touched">La description doit être renseignée.</div>
+        <label class="control-label">Description</label>
+        <input type="textarea" class="form-control" name="description"  formControlName="description" required>
+      </div>
+
+      <div class="form-group col-6">
+        <label class="control-label">Choix du lieu</label>
+        <div class="alert alert-danger" [hidden]="forms.get('libraryID').valid || !forms.get('libraryID').touched">Une bibliothèque doit être renseignée.</div>
+        <select class="form-control" name="libraryID"  formControlName="libraryID" required>
+          <option *ngFor="let library of librarys" [ngValue]="library.id">{{library.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-6">
+        <input type="radio" name="avaible" formControlName="avaible" [value]="true" />Disponnible
+        <input type="radio" name="avaible" formControlName="avaible" [value]="false" />Non disponnible
+      </div>
+
+    </div>
+
+
+      <button type="submit" class="btn btn-primary" [hidden]="this.forms.invalid">Save</button>
+
+
+</form>
+
+    </div>
+  </div>
+</div>

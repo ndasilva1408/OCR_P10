@@ -1,0 +1,96 @@
+<br>
+<div class="container">
+  <div class="well-block">
+    <div class="well-title">
+
+      <div class="card"  style="border-radius: 10px" *ngIf="book != null">
+        <div class="card-header text-center">
+          <h3>{{book.titre}}</h3>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-4 container-fluid">
+            <img src="{{this.book.urlimg}}" class="card-img" alt="...">
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <span><strong>Auteur: </strong> {{book.auteur}}</span>
+              <hr>
+              <span><strong>Edité par:</strong>  {{book.edition}} | {{book.anneeParution}}</span>
+              <hr>
+              <hr>
+              <span class="card-text"><strong>Description de l'ouvrage:</strong> {{book.description}}</span>
+            </div>
+          </div>
+        </div>
+        <br>
+
+          <table class="table table-responsive">
+            <table class="table table-hover table-condensed table-striped text-center">
+              <thead class="book">
+              <tr>
+                <th>Ouvrage</th>
+                <th>Quantité</th>
+                <th>Site</th>
+                <th>Réservation</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="clickableRow"  *ngFor="let bookS of books" >
+
+                <td>{{bookS.titre}}</td>
+                <td>{{bookS.disponible ? bookS.quantite : 'Non Dispo TODO: Premiere date retour + nbre personne en attente' }}</td>
+                <td *ngIf="bookS.provenance == 1 ">Médiathèque Sainte-Croix de Bayonne</td>
+                <td *ngIf="bookS.provenance == 2 ">Médiathèque centre-ville de Bayonne</td>
+                <td *ngIf="bookS.provenance == 3 ">Bibliothèque Universitaire Florence Delay</td>
+                <td *ngIf="bookS.provenance == 4">Bibliothèque Diocésaine de Bayonne</td>
+                <td *ngIf="token.getLogin()!=null && bookS.quantite!=0"> <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBillet(this.book.id)">Réservez</a> </td>
+                <td *ngIf="bookS.quantite == 0">Rejoindre taille liste d'attente</td>
+                <td *ngIf="token.getLogin()==null"> Connectez vous pour réservez</td>
+
+              </tr>
+              </tbody>
+            </table>
+          </table>
+
+
+
+      </div>
+
+      <br>
+      <div class="card"  style="border-radius: 10px" *ngIf="book != null">
+        <table class="table table-responsive">
+          <table class="table table-hover table-condensed table-striped text-center">
+            <thead class="book">
+        <tr>
+          <td>Site</td>
+          <td>Nom</td>
+          <td>Position</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>billet.book.provenance</td>
+          <td>billet.booker</td>
+          <td>i avec i++ jusqu'a limitesize</td>
+        </tr>
+        </tbody>
+          </table>
+      </table>
+
+      </div>
+      <br>
+
+
+
+
+      <div class *ngIf="book == null">
+        <p>Oups..</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+

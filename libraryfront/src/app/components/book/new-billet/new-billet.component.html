@@ -1,0 +1,65 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well-block">
+                <div class="well-title">
+                    <form #f="ngForm" [formGroup]="forms" (ngSubmit)="saveBillet()">
+
+                    <div class="card">
+                        <div class="card-header" style="text-align: center"><h3>Réservation :</h3></div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Titre du livre:</label>
+                            <td>{{book.titre}}</td>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Pour:</label>
+                            <td>{{user.login}}</td>
+                        </div>
+                    </div>
+
+
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label class="control-label">Date</label>
+                                    <input class="form-control"
+                                           type="text"
+                                           name="date"
+                                           placeholder="date"
+                                           formControlName="date"
+                                           required minlength="2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>
+                                TODO: Liste des Résa en cours.
+                            </p>
+                        </div>
+
+                        <br>
+                        <div class="col-md-12" align="right">
+                            <div class="form-group">
+                                <button
+                                        type="submit"
+                                        class="btn btn-primary" [disabled]="forms.invalid">Valider
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
