@@ -18,6 +18,7 @@ export class ViewBookComponent implements OnInit {
     book: Book;
     books: Array<Book>;
     librarys: Array<Bibliotheque>;
+    billetList: Array<Billet>;
     authorities: string;
 
     constructor(private token: TokenStorageService, private bookService: BookService, private route: Router,
@@ -55,6 +56,17 @@ export class ViewBookComponent implements OnInit {
                 console.log('data initListBook: ', this.books);
             });
     }
+  /*  private initListBillet() {
+        this.billetService.getBillets().subscribe(
+            data => {
+                this.billetList = data.filter(b => b.titre === this.book.titre && b.auteur === this.book.auteur);
+                this.books.forEach(book => {
+                    this.librarys.filter(library => book.provenance === ('' + library.name))
+                        .forEach(library => book.auteur = library.name);
+                });
+                console.log('data initListBook: ', this.books);
+            });
+    }*/
 
     private initLibrarys() {
         this.libraryService.getLibrarys().subscribe(

@@ -23,7 +23,7 @@ import {BilletEditComponent} from './components/book/billet-edit/billet-edit.com
 
 import {SlickCarouselModule} from 'ngx-slick-carousel';
 import { NewBilletComponent } from './components/book/new-billet/new-billet.component';
-
+import { NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -51,7 +51,9 @@ import { NewBilletComponent } from './components/book/new-billet/new-billet.comp
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
-        SlickCarouselModule
+        SlickCarouselModule,
+        NgSelectModule
+
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]

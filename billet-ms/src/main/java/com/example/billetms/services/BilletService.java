@@ -14,5 +14,4 @@ public interface BilletService {
     Billet createBillet(BilletDTO billetDTO);
     void updateBilletExtendStatus(Long id);
     void deleteBillets(Long id);
-
 }

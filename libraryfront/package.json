@@ -32,7 +32,8 @@
     "rxjs": "~6.4.0",
     "slick-carousel": "^1.8.1",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@ng-select/ng-select": "3.7.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.24",

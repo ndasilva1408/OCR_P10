@@ -4,49 +4,63 @@
         <div class="col-lg-12">
             <div class="well-block">
                 <div class="well-title">
-                    <form #f="ngForm" [formGroup]="forms" (ngSubmit)="saveBillet()">
+
 
                     <div class="card">
                         <div class="card-header" style="text-align: center"><h3>Réservation :</h3></div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label">Titre du livre:</label>
-                            <td>{{book.titre}}</td>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label">Pour:</label>
-                            <td>{{user.login}}</td>
-                        </div>
-                    </div>
-
-
+                    <form #f="ngForm"  (ngSubmit)="save()">
                         <br>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                                <label class="control-label">Livre: {{book.titre}}</label>
+                                <input class="form-control input-md"
+                                       type="text"
+                                       value="{{book.titre}}"
+                                       formControlName="bookId">
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group"
+                                     [class.has-success]="forms.get('bookerId').valid"
+                                     [class.has-error]="forms.get('bookerId').invalid && forms.get('bookerId').touched">
 
-                                    <label class="control-label">Date</label>
+                                    <label class="control-label">Pour: {{user.login}}</label>
                                     <input class="form-control"
                                            type="text"
-                                           name="date"
-                                           placeholder="date"
-                                           formControlName="date"
-                                           required minlength="2">
+                                           name="bookerId"
+                                           value="{{user.id}}"
+                                           formControlName="bookerId">
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <p>
-                                TODO: Liste des Résa en cours.
-                            </p>
-                        </div>
+                        <div class="overflow-box">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <ng-select
+                                        #BiblioSelect
+                                        bindLabel="name"
+                                        bindValue="id"
+                                        placeholder="Choisis l'endroit de retrait"
+                                        [(ngModel)]="selectedBiblio"
+                                        name="biblio_id"
+                                        required
+                                    >
+                                        <ng-option [value]="biblio.id" *ngFor="let biblio of biblioArray">
+                                            {{biblio.name}}
+                                        </ng-option>
+                                          </ng-select>
 
+
+                                </div>
+                            </div>
+                        </div>
                         <br>
                         <div class="col-md-12" align="right">
                             <div class="form-group">
@@ -63,3 +77,5 @@
         </div>
     </div>
 </div>
+
+

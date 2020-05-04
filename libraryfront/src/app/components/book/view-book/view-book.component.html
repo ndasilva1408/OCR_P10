@@ -71,9 +71,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>billet.book.provenance</td>
-          <td>billet.booker</td>
+        <tr *ngFor="let billet of billetList ">
+          <td>billet.book.provenance =1 biblio1 etc</td>
+          <td>{{billet.bookerId}}</td>
           <td>i avec i++ jusqu'a limitesize</td>
         </tr>
         </tbody>
