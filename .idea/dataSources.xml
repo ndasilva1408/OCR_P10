@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="p7apiweb@localhost" uuid="a85fe52d-9adc-498f-b818-641a7d4d160c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/p7apiweb</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="p7BookndBiblio@localhost" uuid="fcc10073-2595-43ca-8dc1-34a4cc2a023f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/p7BookndBiblio</jdbc-url>
+    </data-source>
+  </component>
+</project>

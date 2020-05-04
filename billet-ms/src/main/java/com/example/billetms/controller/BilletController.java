@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import projetn7.bookms.entity.Book;
+import projetn7.bookms.services.BookDTO;
+import projetn7.bookms.services.BookService;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ import java.util.List;
 public class BilletController {
     @Autowired
     private BilletService billetService;
+
+
 
     @GetMapping(value = "/api/billet-microservice/getAll")
     public List<Billet> getBilletById() {

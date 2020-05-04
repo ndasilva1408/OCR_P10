@@ -5,6 +5,7 @@ import com.example.billetms.repository.BilletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class BilletServiceImpl implements BilletService {
     BilletRepository billetRepository;
     @Autowired
     BilletMapper billetMapper;
+
+
 
 
     @Override
@@ -43,7 +46,15 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setEndDate(LocalDateTime.now().plusWeeks(4));
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
+        billetDTO.setBookerId(billetDTO.getBookerId());
+        billetDTO.setBookId(billetDTO.getBookId());
         Billet billet=billetMapper.fromDTO(billetDTO);
+/*
+        Book book = bookService.getBook(Long.valueOf(billet.getBookId()));
+        book.setQuantite(book.getQuantite()-1);
+        BookDTO bookDTO = bookMapper.toBook(book);
+        bookService.updateBookQty(bookDTO);*/
+
 
         return billetRepository.save(billet);
     }
