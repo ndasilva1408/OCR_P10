@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Book} from '../models/book';
+import {Billet} from "../models/billet";
 
 @Injectable({
     providedIn: 'root'
@@ -43,9 +44,11 @@ export class BookService {
         return this.http.put<Book>(this.bookURL + '/updateBook', form.value);
     }
 
-    updateBookQty(idBook: any): Observable<Book> {
-        return this.http.put<Book>(this.bookURL + '/updateBookQty', {params: new HttpParams().set('id', idBook)});
+    updateBookQty(bookId: any) {
+        console.log('id to update', bookId);
+        return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
     }
+
 
     updateBookStatus(book: Book): Observable<Book> {
         console.log('book to update status', book);

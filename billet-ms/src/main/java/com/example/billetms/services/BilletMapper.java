@@ -11,6 +11,7 @@ public interface BilletMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+
     Billet fromDTO(BilletDTO dto);
 }
 

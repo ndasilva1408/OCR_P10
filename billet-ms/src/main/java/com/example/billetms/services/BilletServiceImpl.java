@@ -18,8 +18,6 @@ public class BilletServiceImpl implements BilletService {
     BilletMapper billetMapper;
 
 
-
-
     @Override
     public List<Billet> getAllBillets() {
         return billetRepository.findAll();
@@ -49,12 +47,6 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setBookerId(billetDTO.getBookerId());
         billetDTO.setBookId(billetDTO.getBookId());
         Billet billet=billetMapper.fromDTO(billetDTO);
-/*
-        Book book = bookService.getBook(Long.valueOf(billet.getBookId()));
-        book.setQuantite(book.getQuantite()-1);
-        BookDTO bookDTO = bookMapper.toBook(book);
-        bookService.updateBookQty(bookDTO);*/
-
 
         return billetRepository.save(billet);
     }

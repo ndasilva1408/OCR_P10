@@ -10,7 +10,7 @@
                         <div class="card-header" style="text-align: center"><h3>Réservation :</h3></div>
                     </div>
 
-                    <form #f="ngForm" [formGroup]="forms"  (ngSubmit)="save()">
+                    <form #f="ngForm" [formGroup]="forms" (ngSubmit)="save()">
                         <br>
 
                         <div class="col-md-3">
@@ -25,33 +25,33 @@
                         </div>
 
 
-                            <div class="col-md-3">
-                                <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="form-group">
 
-                                    <label class="control-label">Pour: {{user.login}}</label>
-                                    <input class="form-control"
-                                           type="hidden"
-                                           name="bookerId"
-                                           [ngModel]="user.id"
-                                           formControlName="bookerId">
-                                </div>
+                                <label class="control-label">Pour: {{user.login}}</label>
+                                <input class="form-control"
+                                       type="hidden"
+                                       name="bookerId"
+                                       [ngModel]="user.id"
+                                       formControlName="bookerId">
                             </div>
+                        </div>
 
 
                         <div class="overflow-box">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <ng-select
-                                        bindLabel="name"
-                                        bindValue="id"
-                                        placeholder="Choisis l'endroit de retrait"
-                                        [items]="biblioArray"
-                                        [(ngModel)]="selectedBiblio"
-                                        formControlName="biblioId"
-                                        required
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Choisis l'endroit de retrait"
+                                            [items]="biblioArray"
+                                            [(ngModel)]="selectedBiblio"
+                                            formControlName="biblioId"
+                                            required
                                     >
 
-                                          </ng-select>
+                                    </ng-select>
 
 
                                 </div>

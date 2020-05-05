@@ -29,7 +29,7 @@ public class Billet {
     private Date endDate;
 
     private Date extendDate;
-
+    @Column(name = "biblio_id")
     private String biblioId;
 
     @Column(name = "is_extend")
