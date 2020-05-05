@@ -34,6 +34,7 @@ export class NewBilletComponent implements OnInit {
         name: 'Bibliothèque Diocésaine de Bayonne'
     }];
     selectedBiblio = [];
+    bookId: number;
 
 
     private messageError: string;
@@ -98,7 +99,8 @@ export class NewBilletComponent implements OnInit {
     }
 
     updateBookQty() {
-        this.bookService.updateBookQty(this.forms)
+        this.bookId = this.book.id;
+        this.bookService.updateBookQty(this.bookId)
             .subscribe(response => {
                     console.log('response: ', response);
                 },

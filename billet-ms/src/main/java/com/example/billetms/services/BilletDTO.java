@@ -14,6 +14,7 @@ public class BilletDTO {
     Long id;
     String bookerId;
     String bookId;
+    String biblioId;
     LocalDateTime bookingDate;
     LocalDateTime endDate;
     LocalDateTime extendDate;
