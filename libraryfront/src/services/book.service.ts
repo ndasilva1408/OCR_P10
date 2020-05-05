@@ -42,8 +42,9 @@ export class BookService {
     updateBook(form: FormGroup): Observable<Book> {
         return this.http.put<Book>(this.bookURL + '/updateBook', form.value);
     }
-    updateBookQty(form: FormGroup): Observable<Book> {
-        return this.http.put<Book>(this.bookURL + '/updateBookQty', form.value);
+
+    updateBookQty(idBook: any): Observable<Book> {
+        return this.http.put<Book>(this.bookURL + '/updateBookQty', {params: new HttpParams().set('id', idBook)});
     }
 
     updateBookStatus(book: Book): Observable<Book> {
