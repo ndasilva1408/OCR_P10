@@ -10,7 +10,7 @@
                         <div class="card-header" style="text-align: center"><h3>Réservation :</h3></div>
                     </div>
 
-                    <form #f="ngForm"  (ngSubmit)="save()">
+                    <form #f="ngForm" [formGroup]="forms"  (ngSubmit)="save()">
                         <br>
 
                         <div class="col-md-3">
@@ -18,43 +18,39 @@
 
                                 <label class="control-label">Livre: {{book.titre}}</label>
                                 <input class="form-control input-md"
-                                       type="text"
-                                       value="{{book.titre}}"
+                                       type="hidden"
+                                       [ngModel]="book.id"
                                        formControlName="bookId">
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group"
-                                     [class.has-success]="forms.get('bookerId').valid"
-                                     [class.has-error]="forms.get('bookerId').invalid && forms.get('bookerId').touched">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
 
                                     <label class="control-label">Pour: {{user.login}}</label>
                                     <input class="form-control"
-                                           type="text"
+                                           type="hidden"
                                            name="bookerId"
-                                           value="{{user.id}}"
+                                           [ngModel]="user.id"
                                            formControlName="bookerId">
                                 </div>
                             </div>
-                        </div>
+
 
                         <div class="overflow-box">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <ng-select
-                                        #BiblioSelect
                                         bindLabel="name"
                                         bindValue="id"
                                         placeholder="Choisis l'endroit de retrait"
+                                        [items]="biblioArray"
                                         [(ngModel)]="selectedBiblio"
-                                        name="biblio_id"
+                                        formControlName="biblioId"
                                         required
                                     >
-                                        <ng-option [value]="biblio.id" *ngFor="let biblio of biblioArray">
-                                            {{biblio.name}}
-                                        </ng-option>
+
                                           </ng-select>
 
 

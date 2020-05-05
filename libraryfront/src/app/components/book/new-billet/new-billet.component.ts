@@ -28,14 +28,12 @@ export class NewBilletComponent implements OnInit {
         name: 'Médiathèque Sainte-Croix de Bayonne'
     }, {
         id: 3,
-        name: 'Bibliothèque Universitaire Florence Delay'
+        name: 'Bibliothèque Universitaire Florence Delay',
     }, {
         id: 4,
         name: 'Bibliothèque Diocésaine de Bayonne'
     }];
-    @ViewChild('f', {static: false}) MyForm: NgForm;
     selectedBiblio = [];
-
 
 
     private messageError: string;
@@ -58,6 +56,7 @@ export class NewBilletComponent implements OnInit {
             {
                 bookerId: new FormControl(),
                 bookId: new FormControl(),
+                biblioId: new FormControl(),
             });
     }
 
@@ -80,9 +79,8 @@ export class NewBilletComponent implements OnInit {
     }
 
     save() {
-        this.updateBookQty();
         this.saveBillet();
-        this.MyForm.form.markAllAsTouched();
+        this.updateBookQty();
     }
 
     saveBillet() {
