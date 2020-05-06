@@ -76,16 +76,23 @@
                       <th>Date de retour</th>
                       <th>Possibilité d'étendre le prêt</th>
                       <th>Actions</th>
+                      <th>Annuler l'emprunt</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="clickableRow"  *ngFor="let billet of billets">
-                      <td>{{billet.bookId}}</td>
-                      <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
-                      <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'dd/MM/yyyy'}}</td>
-                      <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'dd/MM/yyyy'}}</td>
-                      <td>{{billet.isExtend ? 'Non' : 'Oui'}}</td>
-                      <td><button type="button" class="btn btn-info" *ngIf=" billet.isExtend == false" (click)="extendBorrow(this.billet.id)">Prolonger l'emprunt</button></td>
+                      <td *ngIf="billet.isOnWaitList == false">{{billet.bookId}}</td>
+                      <td *ngIf="billet.isOnWaitList == true">{{billet.bookId}}</td>
+                      <td *ngIf="billet.isOnWaitList == false" >{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
+                      <td *ngIf="billet.isOnWaitList == true" >Sur liste d'attente</td>
+                      <td *ngIf="billet.isExtend == false && billet.isOnWaitList == false">{{billet.endDate | date: 'dd/MM/yyyy'}}</td>
+                      <td *ngIf="billet.isExtend == false && billet.isOnWaitList == true">/</td>
+                      <td *ngIf="billet.isExtend == true&& billet.isOnWaitList == false">{{billet.extendDate | date: 'dd/MM/yyyy'}}</td>
+                      <td *ngIf="billet.isExtend == true&& billet.isOnWaitList == true">/</td>
+                      <td *ngIf="billet.isOnWaitList == false">{{billet.isExtend ? 'Non' : 'Oui'}}</td>
+                      <td *ngIf="billet.isOnWaitList == true">/</td>
+                      <td><button type="button" class="btn btn-info" *ngIf=" billet.isExtend == false && billet.isOnWaitList == false" (click)="extendBorrow(this.billet.id)">Prolonger l'emprunt</button></td>
+                      <td>TODO: Annulation</td>
                     </tr>
                     </tbody>
                   </table>

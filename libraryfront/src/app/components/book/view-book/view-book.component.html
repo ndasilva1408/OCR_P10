@@ -37,20 +37,47 @@
                 <th>Réservation</th>
               </tr>
               </thead>
-              <tbody>
-              <tr class="clickableRow"  *ngFor="let bookS of books" >
+              <tbody >
+
+              <tr class="clickableRow"  *ngFor="let bookS of books " >
+
 
                 <td>{{bookS.titre}}</td>
                 <td>{{bookS.disponible ? bookS.quantite : 'Non Dispo TODO: Premiere date retour + nbre personne en attente' }}</td>
-                <td *ngIf="bookS.provenance == 1 ">Médiathèque Sainte-Croix de Bayonne</td>
-                <td *ngIf="bookS.provenance == 2 ">Médiathèque centre-ville de Bayonne</td>
-                <td *ngIf="bookS.provenance == 3 ">Bibliothèque Universitaire Florence Delay</td>
-                <td *ngIf="bookS.provenance == 4">Bibliothèque Diocésaine de Bayonne</td>
-                <td *ngIf="token.getLogin()!=null && bookS.quantite!=0"> <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBillet(this.book.id)">Réservez</a> </td>
-                <td *ngIf="bookS.quantite == 0">Rejoindre taille liste d'attente</td>
-                <td *ngIf="token.getLogin()==null"> Connectez vous pour réservez</td>
+                <td *ngIf="bookS.provenance == 1 ">{{librarys[0].name}}</td>
+                <td *ngIf="bookS.provenance == 2 ">{{librarys[1].name}}</td>
+                <td *ngIf="bookS.provenance == 3 ">{{librarys[2].name}}</td>
+                <td *ngIf="bookS.provenance == 4">{{librarys[3].name}}</td>
+
+                <td *ngIf="token.getLogin()!=null && bookS.quantite!=0">
+                  <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBillet(this.bookS.id)">Réservez</a>
+                </td>
+                <td *ngIf="token.getLogin()==null">  Connectez vous pour réservez</td>
+                <td *ngIf="bookS.quantite == 0 && waitinList.length < bookS.qtyMax">
+                  <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBilletOnWaitList(this.bookS.id)">Rejoindre liste d'attente (Taille actuelle de la liste: {{waitinList.length }})</a>
+                </td>
+                <td *ngIf="bookS.quantite == 0 && waitinList.length >= bookS.qtyMax">Livre indisponible</td>
+
+  <!--    <ng-container *ngFor="let billetS of billets">
+                  <td *ngIf="token.getLogin()!=null && bookS.quantite!=0 && user.id.toString()!=billetS.bookerId">
+                    <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBillet(this.bookS.id)">Réservez</a>
+                  </td>
+                  <td *ngIf="bookS.quantite == 0  && billetS.bookerId != user.id.toString() ">Rejoindre taille liste d'attente</td>
+                  <td *ngIf="token.getLogin()==null">  Connectez vous pour réservez</td>
+
+                  <td *ngIf="billetS.bookerId == user.id.toString() && billetS.biblioId == bookS.provenance && billetS.bookId == bookS.id.toString()">Vous avez déjà une réservation en cours pour ce livre</td>
+                </ng-container>
+                <td >
+                  <a [title]="bookS.titre + ' accès réservation'" href="javascript:void(0)"  (click)="newBillet(this.bookS.id)">Réservez</a>
+                </td>
+
+-->
+
+
 
               </tr>
+
+
               </tbody>
             </table>
           </table>
@@ -61,6 +88,9 @@
 
       <br>
       <div class="card"  style="border-radius: 10px" *ngIf="book != null">
+        <div class="card-header text-center">
+        <h3>Réservation en cours</h3>
+        </div>
         <table class="table table-responsive">
           <table class="table table-hover table-condensed table-striped text-center">
             <thead class="book">
@@ -71,10 +101,39 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let billet of billetList ">
-          <td>billet.book.provenance =1 biblio1 etc</td>
-          <td>{{billet.bookerId}}</td>
-          <td>i avec i++ jusqu'a limitesize</td>
+        <tr *ngFor="let billetS of waitinList ; let i = index">  <!-- Index a revoir. Pour pouvoir vraiment gerer la liste d'attente pour chaque livre -->
+          <ng-container  *ngIf="billetS.biblioId== 1 && book.provenance == 1">
+            <td> {{librarys[0].name}}</td>
+            <ng-container *ngFor="let userS of users">
+              <td *ngIf="userS.id==billetS.bookerId">{{userS.login}}</td>
+            </ng-container>
+            <td>{{i+1}}/{{waitinList.length}}</td>
+          </ng-container>
+
+          <ng-container  *ngIf="billetS.biblioId== 2 && book.provenance == 2">
+            <td> {{librarys[1].name}}</td>
+            <ng-container *ngFor="let userS of users">
+              <td *ngIf="userS.id==billetS.bookerId">{{userS.login}}</td>
+            </ng-container>
+            <td>{{i+1}}/{{waitinList.length}}</td>
+          </ng-container>
+
+          <ng-container  *ngIf="billetS.biblioId== 3 && book.provenance == 3">
+            <td> {{librarys[2].name}}</td>
+            <ng-container *ngFor="let userS of users">
+              <td *ngIf="userS.id==billetS.bookerId">{{userS.login}}</td>
+            </ng-container>
+            <td>{{i+1}}/{{waitinList.length}}</td>
+          </ng-container>
+
+          <ng-container  *ngIf="billetS.biblioId== 4 && book.provenance == 4">
+            <td> {{librarys[3].name}}</td>
+            <ng-container *ngFor="let userS of users">
+              <td *ngIf="userS.id==billetS.bookerId">{{userS.login}}</td>
+            </ng-container>
+            <td>{{i+1}}/{{waitinList.length}}</td>
+          </ng-container>
+
         </tr>
         </tbody>
           </table>

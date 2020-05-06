@@ -28,6 +28,12 @@ public class ClientController {
     if(client==null) return  ResponseEntity.noContent().build();
     return new ResponseEntity<>(client,HttpStatus.ACCEPTED);
     }
+    @GetMapping(value = "/api/client-microservice/getClientLogin")
+    public ResponseEntity<String> getClientLogin(@RequestParam(name = "id" , defaultValue = "") Long id){
+        String login = clientService.getClientLogin(id);
+        if(login==null) return  ResponseEntity.noContent().build();
+        return new ResponseEntity<>(login,HttpStatus.ACCEPTED);
+    }
 
     @GetMapping(value = "/api/client-microservice/myProfil")
     public ResponseEntity<Client> loadProfil(@RequestParam(name = "login", defaultValue = "") String login){

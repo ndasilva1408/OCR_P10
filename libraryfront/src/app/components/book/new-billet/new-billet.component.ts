@@ -8,6 +8,8 @@ import {UserService} from '../../../../services/user.service';
 import {TokenStorageService} from '../../../../services/security/token-storage.service';
 import {BilletService} from '../../../../services/billet.service';
 import {Billet} from '../../../../models/billet';
+import {LibraryService} from '../../../../services/library.service';
+import {Bibliotheque} from '../../../../models/bibliotheque';
 
 @Component({
     selector: 'app-new-billet',
@@ -18,21 +20,11 @@ export class NewBilletComponent implements OnInit {
     forms: FormGroup;
     user: User;
     book: Book;
+    billets: Array<Billet>;
     authorities: string;
     billet: Billet;
-    biblioArray = [{
-        id: 1,
-        name: 'Médiathèque centre-ville de Bayonne'
-    }, {
-        id: 2,
-        name: 'Médiathèque Sainte-Croix de Bayonne'
-    }, {
-        id: 3,
-        name: 'Bibliothèque Universitaire Florence Delay',
-    }, {
-        id: 4,
-        name: 'Bibliothèque Diocésaine de Bayonne'
-    }];
+    books: Array<Book>;
+    librarys: Array<Bibliotheque>;
     selectedBiblio = [];
     bookId: number;
 
@@ -41,7 +33,7 @@ export class NewBilletComponent implements OnInit {
 
     constructor(private token: TokenStorageService, private formBuilder: FormBuilder,
                 private bookService: BookService, private billetService: BilletService,
-                private userService: UserService,
+                private userService: UserService, private libraryService: LibraryService,
                 private router: Router, private activatedRoute: ActivatedRoute) {
     }
 
@@ -50,6 +42,9 @@ export class NewBilletComponent implements OnInit {
         this.initBook();
         this.authorities = this.token.getAuthorities();
         this.initUser();
+        this.initLibrarys();
+        this.initListBook();
+        this.initBillet();
     }
 
     private initform() {
@@ -108,5 +103,36 @@ export class NewBilletComponent implements OnInit {
                     console.log('Error: ', error.error.message);
                     this.messageError = error.error.message;
                 });
+    }
+
+    private initBillet() {
+        this.billetService.getBorrowsByUserID(this.user.id).subscribe(
+            data => {
+                this.billets = data;
+                this.billets.forEach(billet => {
+                    this.books.filter(book => ('' + book.id) === billet.bookId).forEach(book => billet.bookId = book.titre);
+                });
+            });
+    }
+    private initListBook() {
+        this.bookService.getBooks().subscribe(
+            data => {
+                this.books = data.filter(b => b.titre === this.book.titre && b.auteur === this.book.auteur);
+                this.books.forEach(book => {
+                    this.librarys.filter(library => book.provenance === ('' + library.name))
+                        .forEach(library => book.auteur = library.name);
+                });
+                console.log('data initListBook: ', this.books);
+            });
+    }
+    private initLibrarys() {
+        this.libraryService.getLibrarys().subscribe(
+            data => {
+                this.librarys = data;
+                console.log('data : ', data);
+            },
+            err => {
+                console.log('error: ', err.error.message);
+            });
     }
 }

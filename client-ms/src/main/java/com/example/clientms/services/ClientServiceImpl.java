@@ -26,6 +26,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public String getClientLogin(Long id) {
+      Client client =  clientRepository.getOne(id);
+        String login = client.getLogin();
+        return login;
+    }
+
+    @Override
     public Client newClient(ClientDTO clientDTO) {
         Client client = clientMapper.toDto(clientDTO);
         return clientRepository.save(client);

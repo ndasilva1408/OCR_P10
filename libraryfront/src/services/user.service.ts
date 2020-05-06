@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {User} from '../models/user';
 import {TokenStorageService} from './security/token-storage.service';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -26,6 +27,19 @@ export class UserService {
 
     getUsers() {
         return this.http.get<Array<User>>(this.userURL + '/getAll');
+    }
+    getUser(id: any): Observable<User> {
+        return this.http.get<User>(this.userURL + '/getClient', {
+            params: new HttpParams()
+                .set('id', id),
+        });
+    }
+
+    getUserLogin(id: any): Observable<User> {
+        return this.http.get<User>(this.userURL + '/getClientLogin', {
+            params: new HttpParams()
+                .set('id', id),
+        });
     }
 
     deleteUser(idUser: any): Observable<{}> {

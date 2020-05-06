@@ -43,6 +43,11 @@ public class BilletController {
         Billet billet = billetService.createBillet(billetDTO);
         return new ResponseEntity<>(billet, HttpStatus.OK);
     }
+    @PostMapping(value = "/api/billet-microservice/addBilletForWaitList")
+    public ResponseEntity<Billet> createBilletForWaitList(@RequestBody BilletDTO billetDTO) {
+        Billet billet = billetService.createBilletForWaitList(billetDTO);
+        return new ResponseEntity<>(billet, HttpStatus.OK);
+    }
 
     @PutMapping(value = "/api/billet-microservice/extendBillet")
     public ResponseEntity<Void> extendBillet(@RequestParam(name = "id") String id) {

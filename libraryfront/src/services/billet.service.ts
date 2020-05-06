@@ -37,6 +37,9 @@ export class BilletService {
     saveBorrow(form: FormGroup): Observable<FormGroup> {
         return this.http.post<FormGroup>(this.borrowURL + '/addBillet', form.value);
     }
+    saveBorrowForWaitList(form: FormGroup): Observable<FormGroup> {
+        return this.http.post<FormGroup>(this.borrowURL + '/addBilletForWaitList', form.value);
+    }
 
 
     updateBorrowStatus(id: any) {

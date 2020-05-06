@@ -52,6 +52,20 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
+    public Billet createBilletForWaitList(BilletDTO billetDTO) {
+        billetDTO.setBookingDate(LocalDateTime.now());
+        billetDTO.setEndDate(LocalDateTime.now().plusWeeks(4));
+        billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
+        billetDTO.setIsExtend(false);
+        billetDTO.setIsOnWaitList(true);
+        billetDTO.setBookerId(billetDTO.getBookerId());
+        billetDTO.setBookId(billetDTO.getBookId());
+        Billet billet=billetMapper.fromDTO(billetDTO);
+
+        return billetRepository.save(billet);
+    }
+
+    @Override
     public void updateBilletExtendStatus(Long id) {
         Billet billet=getBillet(id);
         billet.setIsExtend(true);

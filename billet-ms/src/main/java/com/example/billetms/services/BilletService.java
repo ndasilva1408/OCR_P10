@@ -12,6 +12,7 @@ public interface BilletService {
 
     Billet getBillet  (Long id);
     Billet createBillet(BilletDTO billetDTO);
+    Billet createBilletForWaitList(BilletDTO billetDTO);
     void updateBilletExtendStatus(Long id);
     void deleteBillets(Long id);
 }
