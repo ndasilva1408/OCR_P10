@@ -41,7 +41,7 @@
                             <div class="form-group" *ngFor="let library of librarys">
 
                                 <label class="control-label"
-                                     *ngIf="library.id == book.provenance" >
+                                       *ngIf="library.id == book.provenance" >
                                     Point de retrait:<strong> {{library.name}} </strong>, {{library.adresse}}</label>
                                 <input class="form-control"
                                        type="hidden"
@@ -68,5 +68,3 @@
         </div>
     </div>
 </div>
-
-

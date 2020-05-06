@@ -14,6 +14,8 @@ public interface ClientService {
 
     Client loadProfil (String login);
 
+    String getClientLogin (Long id);
+
 
     void deleteClient (Long id);
 }
