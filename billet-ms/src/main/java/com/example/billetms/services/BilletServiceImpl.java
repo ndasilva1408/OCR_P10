@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.PriorityQueue;
 
 @Service
 public class BilletServiceImpl implements BilletService {
@@ -44,8 +45,6 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setEndDate(LocalDateTime.now().plusWeeks(4));
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
-        billetDTO.setBookerId(billetDTO.getBookerId());
-        billetDTO.setBookId(billetDTO.getBookId());
         Billet billet=billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
@@ -58,8 +57,6 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
         billetDTO.setIsOnWaitList(true);
-        billetDTO.setBookerId(billetDTO.getBookerId());
-        billetDTO.setBookId(billetDTO.getBookId());
         Billet billet=billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
@@ -78,4 +75,6 @@ public class BilletServiceImpl implements BilletService {
         billetRepository.deleteById(id);
 
     }
+
+
 }

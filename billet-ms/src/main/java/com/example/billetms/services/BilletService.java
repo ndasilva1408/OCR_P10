@@ -3,6 +3,7 @@ package com.example.billetms.services;
 import com.example.billetms.entities.Billet;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 public interface BilletService {
     List<Billet> getAllBillets();

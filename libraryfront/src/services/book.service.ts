@@ -48,6 +48,10 @@ export class BookService {
         console.log('id to update', bookId);
         return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
     }
+    updateBookPositionWaitList(bookId: any) {
+        console.log('id to update', bookId);
+        return this.http.put<Book>(this.bookURL + '/updatePositionWaitListAdd', {}, {params: {bookId: bookId}});
+    }
 
 
     updateBookStatus(book: Book): Observable<Book> {

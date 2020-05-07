@@ -10,6 +10,7 @@ export interface Book {
     urlimg?: string;
     disponible?: boolean;
     provenance?: string;
+    positionWaitList?: number;
 }
 
 
