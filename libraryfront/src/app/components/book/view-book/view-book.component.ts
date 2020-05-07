@@ -70,7 +70,7 @@ export class ViewBookComponent implements OnInit {
     private initWaitinList() {
         this.billetService.getBorrows().subscribe(
             data => {
-                this.waitinList = data.filter(t => t.isOnWaitList === true);
+                this.waitinList = data.filter(t => t.isOnWaitList === true && t.bookId === this.book.id.toString()  );
                 console.log('dataBillets :', data);
             },
             err => {
@@ -81,7 +81,7 @@ export class ViewBookComponent implements OnInit {
     private initBillet() {
         this.billetService.getBorrows().subscribe(
             data => {
-                this.billets = data;
+                this.billets = data.filter(t => t.bookId === this.book.id.toString() && t.bookerId === this.user.id.toString());
                 console.log('dataBillets :', data);
             },
             err => {

@@ -12,6 +12,7 @@ import projetn7.bookms.services.BookDTO;
 import projetn7.bookms.services.BookService;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -64,5 +65,17 @@ public class BilletController {
             return ResponseEntity.noContent().build();
         billetService.deleteBillets(billet.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/billet-microservice/getWaitingList")
+    public ResponseEntity<PriorityQueue<String>> getWaitingList(@RequestParam(name = "waitingList", defaultValue = "") PriorityQueue<String>waitingList,
+                                                                @RequestParam(name = "id" , defaultValue = "") String id) {
+        PriorityQueue<String> newWaitingList = waitingList;
+      List<Billet> billetList= billetService.getBilletsByBooker(id);
+      for (int i=0; i<billetList.size() ; i++)
+          if(billetList.get(i).getIsOnWaitList())
+        newWaitingList.add(billetList.get(i).getId().toString());
+
+        return new ResponseEntity<>(newWaitingList, HttpStatus.OK);
     }
 }

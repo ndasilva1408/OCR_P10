@@ -80,6 +80,7 @@ export class NewBilletWaitlistComponent implements OnInit {
 
   saveBillet() {
     console.log(this.forms.value);
+    this.bookService.updateBookPositionWaitList(this.forms)
     this.billetService.saveBorrowForWaitList(this.forms)
         .subscribe(
             response => {
