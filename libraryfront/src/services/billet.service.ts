@@ -37,14 +37,28 @@ export class BilletService {
     saveBorrow(form: FormGroup): Observable<FormGroup> {
         return this.http.post<FormGroup>(this.borrowURL + '/addBillet', form.value);
     }
+
     saveBorrowForWaitList(form: FormGroup): Observable<FormGroup> {
         return this.http.post<FormGroup>(this.borrowURL + '/addBilletForWaitList', form.value);
     }
 
 
+
+
     updateBorrowStatus(id: any) {
         console.log('id to update', id);
         return this.http.put<Billet>(this.borrowURL + '/extendBillet', {}, {params: {id: id}});
+    }
+
+    getWaitingList(id: any, waitingList: Array<string>) {
+        let params = new HttpParams();
+
+        params = params.append('id', id);
+        params = params.append('waitingList', JSON.stringify(waitingList));
+
+        return this.http.get<Array<Billet>>(this.borrowURL + '/getWaitingList', {
+            params
+        });
     }
 
     deleteBorrow(id: any): Observable<{}> {
@@ -53,5 +67,4 @@ export class BilletService {
                 .set('id', id)
         });
     }
-
 }

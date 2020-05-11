@@ -9,6 +9,7 @@ import {BookService} from '../../../../services/book.service';
 import {Billet} from '../../../../models/billet';
 import {Book} from '../../../../models/book';
 import {AuthService} from '../../../../services/security/auth.service';
+import {Bibliotheque} from '../../../../models/bibliotheque';
 
 @Component({
     selector: 'app-my-profil',
@@ -21,6 +22,9 @@ export class MyProfilComponent implements OnInit {
     user: User;
     billets: Array<Billet>;
     books: Array<Book>;
+    book: Book;
+    waitinList: Array<Billet>;
+    billet: Billet;
 
 
     constructor(private userService: UserService, private token: TokenStorageService,
@@ -85,6 +89,17 @@ export class MyProfilComponent implements OnInit {
         this.billetService.updateBorrowStatus(id).subscribe(res => {
             this.initBillet();
         });
+    }
+    private initWaitinList() {
+        this.billetService.getBorrows().subscribe(
+            data => {
+                this.waitinList = data.filter(t => t.isOnWaitList === true && t.bookId === this.book.id.toString());
+                console.log('dataBilletWaitinList :', data);
+            },
+            data => {
+                this.billets = data.filter(h => h.bookId === this.book.id.toString() && h.bookerId === this.user.id.toString());
+                console.log('dataBillets :', data);
+            });
     }
 }
 

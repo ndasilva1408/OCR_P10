@@ -16,4 +16,6 @@ public interface BilletService {
     Billet createBilletForWaitList(BilletDTO billetDTO);
     void updateBilletExtendStatus(Long id);
     void deleteBillets(Long id);
+
+    List<Billet> getWaitingList(String bookId);
 }

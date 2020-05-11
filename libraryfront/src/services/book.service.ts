@@ -48,6 +48,7 @@ export class BookService {
         console.log('id to update', bookId);
         return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
     }
+
     updateBookPositionWaitList(bookId: any) {
         console.log('id to update', bookId);
         return this.http.put<Book>(this.bookURL + '/updatePositionWaitListAdd', {}, {params: {bookId: bookId}});
@@ -57,6 +58,14 @@ export class BookService {
     updateBookStatus(book: Book): Observable<Book> {
         console.log('book to update status', book);
         return this.http.put<Book>(this.bookURL + '/updateBookStatus', book);
+    }
+
+    generateBookWaitingList(id: any) {
+        return this.http.get<Array<Book>>(this.bookURL + '/getBookWaitingList', {
+            params: new HttpParams()
+                .set('id', id),
+        });
+
     }
 
     deleteBook(idBook: any): Observable<{}> {

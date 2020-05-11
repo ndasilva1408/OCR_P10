@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import projetn7.bookms.entity.Book;
-import projetn7.bookms.services.BookDTO;
-import projetn7.bookms.services.BookService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -68,9 +66,9 @@ public class BilletController {
     }
 
     @GetMapping(value = "/api/billet-microservice/getWaitingList")
-    public ResponseEntity<PriorityQueue<String>> getWaitingList(@RequestParam(name = "waitingList", defaultValue = "") PriorityQueue<String>waitingList,
+    public ResponseEntity<ArrayList<String>> getWaitingList(@RequestParam(name = "waitingList", defaultValue = "") ArrayList<String>waitingList,
                                                                 @RequestParam(name = "id" , defaultValue = "") String id) {
-        PriorityQueue<String> newWaitingList = waitingList;
+        ArrayList<String> newWaitingList = waitingList;
       List<Billet> billetList= billetService.getBilletsByBooker(id);
       for (int i=0; i<billetList.size() ; i++)
           if(billetList.get(i).getIsOnWaitList())
