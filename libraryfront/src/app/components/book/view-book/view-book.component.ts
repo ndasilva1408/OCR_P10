@@ -10,13 +10,13 @@ import {BilletService} from '../../../../services/billet.service';
 import {UserService} from '../../../../services/user.service';
 import {User} from '../../../../models/user';
 
+
 @Component({
     selector: 'app-view-book',
     templateUrl: './view-book.component.html',
     styleUrls: ['./view-book.component.css']
 })
 export class ViewBookComponent implements OnInit {
-
     book: Book;
     user: User;
     users: Array<User>;
@@ -27,6 +27,8 @@ export class ViewBookComponent implements OnInit {
     authorities: string;
     billet: Billet;
 
+
+
     constructor(private token: TokenStorageService, private bookService: BookService, private route: Router,
                 private activatedRoute: ActivatedRoute, private libraryService: LibraryService,
                 private billetService: BilletService, private userService: UserService) {
@@ -34,11 +36,10 @@ export class ViewBookComponent implements OnInit {
 
     ngOnInit() {
         this.initUser();
+        this.initWaitinList();
         this.initLibrarys();
         this.initBook();
-        this.initBillet();
         this.initUsers();
-        this.initWaitinList();
         this.authorities = this.token.getAuthorities();
     }
 
@@ -67,25 +68,16 @@ export class ViewBookComponent implements OnInit {
                 console.log('data initListBook: ', this.books);
             });
     }
+
     private initWaitinList() {
         this.billetService.getBorrows().subscribe(
             data => {
-                this.waitinList = data.filter(t => t.isOnWaitList === true && t.bookId === this.book.id.toString()  );
-                console.log('dataBillets :', data);
+                this.waitinList = data.filter(t => t.isOnWaitList === true && t.bookId === this.book.id.toString());
+                console.log('dataBilletWaitinList :', data);
             },
-            err => {
-                console.log('error: ', err.error.message);
-            });
-    }
-
-    private initBillet() {
-        this.billetService.getBorrows().subscribe(
             data => {
-                this.billets = data.filter(t => t.bookId === this.book.id.toString() && t.bookerId === this.user.id.toString());
+                this.billets = data.filter(h => h.bookId === this.book.id.toString() && h.bookerId === this.user.id.toString());
                 console.log('dataBillets :', data);
-            },
-            err => {
-                console.log('error: ', err.error.message);
             });
     }
 
@@ -93,7 +85,7 @@ export class ViewBookComponent implements OnInit {
         this.libraryService.getLibrarys().subscribe(
             data => {
                 this.librarys = data;
-                console.log('data : ', data);
+                console.log('dataLIB : ', data);
             },
             err => {
                 console.log('error: ', err.error.message);
@@ -103,6 +95,7 @@ export class ViewBookComponent implements OnInit {
     newBillet(id: number) {
         this.route.navigate(['new-billet'], {queryParams: {id}});
     }
+
     newBilletOnWaitList(id: number) {
         this.route.navigate(['new-billet-waitlist'], {queryParams: {id}});
     }
@@ -113,6 +106,10 @@ export class ViewBookComponent implements OnInit {
         });
     }
 
+    viewBook(id: number) {
+        this.route.navigate(['book'], {queryParams: {id}});
+    }
+
     initUsers() {
         this.userService.getUsers().subscribe(
             data => {
@@ -120,7 +117,4 @@ export class ViewBookComponent implements OnInit {
             }
         );
     }
-
-
-
 }

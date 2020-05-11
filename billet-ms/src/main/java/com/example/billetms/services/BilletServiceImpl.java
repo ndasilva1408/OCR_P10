@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 @Service
 public class BilletServiceImpl implements BilletService {
@@ -30,6 +30,24 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
+    public List<Billet> getWaitingList(String bookId) {
+        List<Billet> waitingList = new ArrayList<>();
+
+         List<Billet> allBillets = billetRepository.findBilletsByBookId(bookId);
+
+            if (allBillets.size() > 0) {
+                for (Billet billet2 : allBillets) {
+                    if (billet2.getIsOnWaitList()) {
+                        waitingList.add(billet2);
+                    }
+                }
+            }
+
+            return waitingList;
+        }
+
+
+    @Override
     public List<Billet> getBilletsByBooker(String id) {
         return billetRepository.findAllByBookerId(id);
     }
@@ -45,7 +63,7 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setEndDate(LocalDateTime.now().plusWeeks(4));
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
-        Billet billet=billetMapper.fromDTO(billetDTO);
+        Billet billet = billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
     }
@@ -57,14 +75,14 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
         billetDTO.setIsOnWaitList(true);
-        Billet billet=billetMapper.fromDTO(billetDTO);
+        Billet billet = billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
     }
 
     @Override
     public void updateBilletExtendStatus(Long id) {
-        Billet billet=getBillet(id);
+        Billet billet = getBillet(id);
         billet.setIsExtend(true);
         billetRepository.save(billet);
 

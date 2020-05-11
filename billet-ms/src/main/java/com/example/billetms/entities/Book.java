@@ -1,5 +1,6 @@
 package com.example.billetms.entities;
 
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,8 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class Book {
+public class Book  {
+
     Long id;
     Long provenance;
     String titre;
@@ -20,4 +22,8 @@ public class Book {
     String description;
     String urlimg;
 
+
 }
+
+
+

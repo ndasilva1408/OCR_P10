@@ -5,6 +5,8 @@ import com.example.billetms.entities.Client;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DatabaseConnect {
@@ -13,37 +15,35 @@ public class DatabaseConnect {
     static final String DB_USER_URL = "jdbc:postgresql://localhost:5432/p7apiweb";
     static final String DB_BOOK_URL = "jdbc:postgresql://localhost:5432/p7BookndBiblio";
 
-    static final String USER = "postgres" ;
+    static final String USER = "postgres";
     static final String PASS = "mpompo98";
 
 
     public static Book getBookFromDB(String bookId) {
         Book book = new Book();
-        try (Connection connection = DriverManager.getConnection(DB_BOOK_URL,USER,PASS)) {
+        try (Connection connection = DriverManager.getConnection(DB_BOOK_URL, USER, PASS)) {
             Class.forName(JDBC_DRIVER);
-            Statement statement=connection.createStatement();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT book.id ,book.titre FROM public.book WHERE book.id IN(" + bookId + ")");
             while (resultSet.next()) {
-            book.setId(resultSet.getLong("id"));
-            book.setTitre(resultSet.getString("titre"));
+                book.setId(resultSet.getLong("id"));
+                book.setTitre(resultSet.getString("titre"));
             }
             resultSet.close();
 
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Connection fail BookDB");
             e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             System.out.println("Fail to load driver");
             e.printStackTrace();
         }
         return book;
     }
 
-    public static Client getClientFromDB (String bookerId) {
+    public static Client getClientFromDB(String bookerId) {
         Client client = new Client();
-        try( Connection connection = DriverManager.getConnection(DB_USER_URL,USER,PASS)) {
+        try (Connection connection = DriverManager.getConnection(DB_USER_URL, USER, PASS)) {
             Class.forName(JDBC_DRIVER);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT client.id ,client.nom , client.prenom , client.mail FROM p7apiweb.public.client WHERE client.id IN  (" + bookerId + ")");
@@ -54,10 +54,10 @@ public class DatabaseConnect {
                 client.setMail(resultSet.getString("mail"));
             }
             resultSet.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Connection fail. client DB");
             e.printStackTrace();
-        }catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             System.out.println("Fail to load driver");
             e.printStackTrace();
         }
@@ -65,5 +65,32 @@ public class DatabaseConnect {
 
     }
 
+    public static List<Book> getBooksFromDB() {
+        List<Book> books = new ArrayList<>();
+        Book book1 = new Book();
+        try (Connection connection = DriverManager.getConnection(DB_BOOK_URL, USER, PASS)) {
+            Class.forName(JDBC_DRIVER);
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM public.book ");
+
+            while (resultSet.next()) {
+                    book1.setId(resultSet.getLong("id"));
+                    book1.setTitre(resultSet.getString("titre"));
+                    book1.setQuantite(resultSet.getInt("quantite"));
+                    books.add(book1);
+            }
+
+            resultSet.close();
+
+        } catch (SQLException e) {
+            System.out.println("Connection fail BookDB");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Fail to load driver");
+            e.printStackTrace();
+        }
+        return books;
+    }
 
 }

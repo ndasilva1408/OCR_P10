@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 @Entity
 @Getter
@@ -15,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Billet {
+public class Billet  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,4 +40,7 @@ public class Billet {
     @Column(name = "is_on_wait_list")
     private Boolean isOnWaitList;
 
+
+
+  
 }

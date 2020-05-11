@@ -21,6 +21,9 @@ public class BilletBatchConfig {
     Book book = new Book();
     Client client = new Client();
     List<Billet> billetsOutDated = new ArrayList<>();
+    List<Billet> waitingList = new ArrayList<>();
+    List<Book> books = new ArrayList<>();
+
 
     @Autowired
     BilletService billetService;
@@ -29,34 +32,63 @@ public class BilletBatchConfig {
     EmailConfig emailConfig;
 
 
-
-
-@Scheduled(cron = "0 0 0 * * *") //Everyday at midnight
+    @Scheduled(cron = "0 0 0 * * *") //Everyday at midnight
 
     public void runTask() {
 
-          billetsOutDated = getAllBilletsOutDated();
+        billetsOutDated = getAllBilletsOutDated();
 
-            System.out.println("Scheduled task  work");
-            System.out.println(billetsOutDated);
+        System.out.println("Scheduled task  work");
+        System.out.println(billetsOutDated);
 
-           if (billetsOutDated.size() > 0) {
-                for (Billet billet1 : billetsOutDated) {
+        if (billetsOutDated.size() > 0) {
+            for (Billet billet1 : billetsOutDated) {
 
-                    client = DatabaseConnect.getClientFromDB(billet1.getBookerId());
-                    System.out.println("ClientDB ok " + client);
-                    book = DatabaseConnect.getBookFromDB(billet1.getBookId());
-                    System.out.println("BookDB ok " + book);
-                    email = createEmailInformations(client, book, billet1);
-                    System.out.println("email ok" + email);
+                client = DatabaseConnect.getClientFromDB(billet1.getBookerId());
+                System.out.println("ClientDB ok " + client);
+                book = DatabaseConnect.getBookFromDB(billet1.getBookId());
+                System.out.println("BookDB ok " + book);
+                email = createEmailInformations(client, book, billet1);
+                System.out.println("email ok" + email);
 
-                    if (email.getIsExtend()) emailConfig.sendEmailwithExtension(email);
-                    else emailConfig.sendEmailwithoutExtension(email);
+                if (email.getIsExtend()) emailConfig.sendEmailwithExtension(email);
+                else emailConfig.sendEmailwithoutExtension(email);
+            }
+
+
+        }
+    }
+
+    @Scheduled(cron = "0 * * * * *") // every minute
+    public void runTaskForWaiters() {
+        books = DatabaseConnect.getBooksFromDB();
+        if (books.size() > 0) {
+            for (Book book1 : books) {
+                if (book1.getQuantite() > 0) {
+                    remindWaitingClient(book1.getId().toString());
                 }
-
-
             }
         }
+
+    }
+
+    public void remindWaitingClient(String bookId) {
+        waitingList = billetService.getWaitingList(bookId);
+        System.out.println("Scheduled task for waitingList  work");
+        System.out.println(waitingList);
+
+
+        Billet billet2 = waitingList.get(0);
+
+        client = DatabaseConnect.getClientFromDB(billet2.getBookerId());
+        System.out.println("ClientDB ok " + client);
+        book = DatabaseConnect.getBookFromDB(billet2.getBookId());
+        System.out.println("BookDB ok " + book);
+        email = createEmailInformations(client, book, billet2);
+        System.out.println("email ok" + email);
+
+        emailConfig.sendEmailForFirstOfWaitList(email);
+    }
 
 
     private Email createEmailInformations(Client client, Book book, Billet billet1) {
@@ -79,6 +111,9 @@ public class BilletBatchConfig {
     }
 
 
-
-
 }
+
+
+
+
+

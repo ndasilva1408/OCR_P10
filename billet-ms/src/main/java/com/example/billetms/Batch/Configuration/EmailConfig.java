@@ -38,4 +38,15 @@ JavaMailSender javaMailSender;
 
         javaMailSender.send(message);
     }
+
+    public void sendEmailForFirstOfWaitList(Email email) {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setFrom("p7senderOCR@gmail.com");
+        message.setTo(email.getEmailClient());
+        message.setSubject("Votre livre est disponible !");
+        message.setText("Bonjour " + email.getNom() + " " + email.getPrenom() + ",le livre\" " + email.getBookTitle() + "\" est disponible ! Venez le cherchez ." );
+
+        javaMailSender.send(message);
+    }
 }
