@@ -23,6 +23,7 @@ import {BilletEditComponent} from './components/book/billet-edit/billet-edit.com
 
 import {SlickCarouselModule} from 'ngx-slick-carousel';
 import { NewBilletComponent } from './components/book/new-billet/new-billet.component';
+import {DatePipe} from "@angular/common";
 
 
 @NgModule({
@@ -53,7 +54,7 @@ import { NewBilletComponent } from './components/book/new-billet/new-billet.comp
         FormsModule,
         SlickCarouselModule
     ],
-    providers: [httpInterceptorProviders],
+    providers: [httpInterceptorProviders, DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {
