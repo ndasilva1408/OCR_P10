@@ -20,6 +20,7 @@ export class BilletService {
         return this.http.get<Array<Billet>>(this.borrowURL + '/getAll');
     }
 
+
     getBorrowsByUserID(bookerId: any) {
         return this.http.get<Array<Billet>>(this.borrowURL + '/getBookerBillets', {
             params: new HttpParams()
@@ -43,18 +44,17 @@ export class BilletService {
     }
 
 
-
-
     updateBorrowStatus(id: any) {
         console.log('id to update', id);
         return this.http.put<Billet>(this.borrowURL + '/extendBillet', {}, {params: {id: id}});
     }
 
-    getWaitingList(id: any, waitingList: Array<string>) {
+
+    getWaitingList(id: any, waitingListSize: number) {
         let params = new HttpParams();
 
         params = params.append('id', id);
-        params = params.append('waitingList', JSON.stringify(waitingList));
+        params = params.append('waitingListSize', JSON.stringify(waitingListSize));
 
         return this.http.get<Array<Billet>>(this.borrowURL + '/getWaitingList', {
             params

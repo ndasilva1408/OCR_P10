@@ -10,7 +10,6 @@ import {BilletService} from '../../../../services/billet.service';
 import {UserService} from '../../../../services/user.service';
 import {User} from '../../../../models/user';
 
-
 @Component({
     selector: 'app-view-book',
     templateUrl: './view-book.component.html',
@@ -24,10 +23,9 @@ export class ViewBookComponent implements OnInit {
     librarys: Array<Bibliotheque>;
     billets: Array<Billet>;
     waitinList: Array<Billet>;
+    waitListSize: number;
     authorities: string;
     billet: Billet;
-
-
 
     constructor(private token: TokenStorageService, private bookService: BookService, private route: Router,
                 private activatedRoute: ActivatedRoute, private libraryService: LibraryService,
@@ -36,7 +34,6 @@ export class ViewBookComponent implements OnInit {
 
     ngOnInit() {
         this.initUser();
-        this.initWaitinList();
         this.initLibrarys();
         this.initBook();
         this.initUsers();
@@ -51,6 +48,7 @@ export class ViewBookComponent implements OnInit {
                     this.bookService.getBook(id).subscribe(data => {
                         this.book = data;
                         this.initListBook();
+                        this.initWaitinList(id);
                     });
                 }
             });
@@ -69,16 +67,17 @@ export class ViewBookComponent implements OnInit {
             });
     }
 
-    private initWaitinList() {
-        this.billetService.getBorrows().subscribe(
-            data => {
-                this.waitinList = data.filter(t => t.isOnWaitList === true && t.bookId === this.book.id.toString());
-                console.log('dataBilletWaitinList :', data);
-            },
-            data => {
-                this.billets = data.filter(h => h.bookId === this.book.id.toString() && h.bookerId === this.user.id.toString());
-                console.log('dataBillets :', data);
+    private initWaitinList(id: number) {
+        this.bookService.getWaitList(id)
+            .subscribe(data => {
+                this.waitListSize = data;
+            }, error => {
+                console.log('error of waitlistsize', error);
             });
+        console.log('WaitListSize : ', this.waitListSize);
+        this.billetService.getWaitingList(id, this.waitListSize).subscribe(
+            waitList => this.waitinList = waitList);
+        console.log('waitList:', this.waitinList);
     }
 
     private initLibrarys() {

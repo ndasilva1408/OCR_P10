@@ -25,8 +25,6 @@ export class NewBilletWaitlistComponent implements OnInit {
     billet: Billet;
     books: Array<Book>;
     librarys: Array<Bibliotheque>;
-    selectedBiblio = [];
-    bookId: number;
 
 
     private messageError: string;

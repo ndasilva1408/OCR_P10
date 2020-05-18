@@ -23,7 +23,8 @@ import {BilletEditComponent} from './components/book/billet-edit/billet-edit.com
 
 import {SlickCarouselModule} from 'ngx-slick-carousel';
 import { NewBilletComponent } from './components/book/new-billet/new-billet.component';
-import {DatePipe} from "@angular/common";
+import {DatePipe} from '@angular/common';
+import {NewBilletWaitlistComponent} from './components/book/new-billet-waitlist/new-billet-waitlist.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {DatePipe} from "@angular/common";
         LibraryEditComponent,
         BilletEditComponent,
         NewBilletComponent,
+        NewBilletWaitlistComponent,
 
     ],
     imports: [

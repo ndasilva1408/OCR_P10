@@ -46,6 +46,11 @@ public class BilletServiceImpl implements BilletService {
             return waitingList;
         }
 
+    @Override
+    public List<Billet> getBilletsByBook(String id) {
+        return billetRepository.findBilletsByBookId(id);
+    }
+
 
     @Override
     public List<Billet> getBilletsByBooker(String id) {

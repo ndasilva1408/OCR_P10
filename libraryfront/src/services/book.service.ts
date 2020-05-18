@@ -3,14 +3,12 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Book} from '../models/book';
-import {Billet} from "../models/billet";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class BookService {
-
     private bookURL = 'http://localhost:9004/book-microservice/api/book-microservice';
 
     constructor(private http: HttpClient) {
@@ -32,6 +30,12 @@ export class BookService {
 
     getBooks(): Observable<Array<Book>> {
         return this.http.get<Array<Book>>(this.bookURL + '/getAll');
+    }
+    getWaitList(id: any): Observable<number> {
+        return this.http.get<number>(this.bookURL + '/getBookWaitingListSize', {
+            params: new HttpParams()
+                .set('id', id)
+        });
     }
 
 

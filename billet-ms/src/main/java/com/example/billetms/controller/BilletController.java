@@ -25,6 +25,7 @@ public class BilletController {
         return billetService.getAllBillets();
     }
 
+
     @GetMapping(value = "/api/billet-microservice/getBookerBillets")
     public List<Billet> getBilletsByBookerId(@RequestParam(name = "bookerId", defaultValue = "") String bookerId) {
         return billetService.getBilletsByBooker(bookerId);
@@ -66,13 +67,14 @@ public class BilletController {
     }
 
     @GetMapping(value = "/api/billet-microservice/getWaitingList")
-    public ResponseEntity<ArrayList<String>> getWaitingList(@RequestParam(name = "waitingList", defaultValue = "") ArrayList<String>waitingList,
+    public ResponseEntity<ArrayList<String>> getWaitingList(@RequestParam(name = "waitingListSize", defaultValue = "") Integer waitingListSize,
                                                                 @RequestParam(name = "id" , defaultValue = "") String id) {
-        ArrayList<String> newWaitingList = waitingList;
-      List<Billet> billetList= billetService.getBilletsByBooker(id);
+        ArrayList<String> newWaitingList = new ArrayList<>();
+        while(newWaitingList.size() < waitingListSize) newWaitingList.add("0");
+      List<Billet> billetList= billetService.getBilletsByBook(id);
       for (int i=0; i<billetList.size() ; i++)
           if(billetList.get(i).getIsOnWaitList())
-        newWaitingList.add(billetList.get(i).getId().toString());
+        newWaitingList.add(i,billetList.get(i).getId().toString());
 
         return new ResponseEntity<>(newWaitingList, HttpStatus.OK);
     }

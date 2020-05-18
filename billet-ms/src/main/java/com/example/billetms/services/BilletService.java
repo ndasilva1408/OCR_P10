@@ -18,4 +18,6 @@ public interface BilletService {
     void deleteBillets(Long id);
 
     List<Billet> getWaitingList(String bookId);
+
+    List<Billet> getBilletsByBook(String id);
 }
