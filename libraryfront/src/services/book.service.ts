@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Book} from '../models/book';
+import {Billet} from "../models/billet";
 
 @Injectable({
     providedIn: 'root'
