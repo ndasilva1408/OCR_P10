@@ -20,4 +20,5 @@ public class BilletDTO {
     LocalDateTime extendDate;
     Boolean isExtend;
     Boolean isOnWaitList;
+    Boolean isExtendable;
 }

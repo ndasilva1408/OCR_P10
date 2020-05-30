@@ -2,6 +2,7 @@ package com.example.billetms.services;
 
 import com.example.billetms.entities.Billet;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -20,4 +21,6 @@ public interface BilletService {
     List<Billet> getWaitingList(String bookId);
 
     List<Billet> getBilletsByBook(String id);
+    void isExtendable(Long id) throws ParseException;
+
 }

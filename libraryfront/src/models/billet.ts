@@ -9,4 +9,5 @@ export interface Billet {
  extendDate?: Date;
  isExtend?: boolean;
  isOnWaitList?: boolean;
+ isExtendable?: boolean;
 }

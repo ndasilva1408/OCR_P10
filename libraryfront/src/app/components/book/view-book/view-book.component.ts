@@ -9,6 +9,8 @@ import {TokenStorageService} from '../../../../services/security/token-storage.s
 import {BilletService} from '../../../../services/billet.service';
 import {UserService} from '../../../../services/user.service';
 import {User} from '../../../../models/user';
+import {delay} from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-view-book',
@@ -16,16 +18,19 @@ import {User} from '../../../../models/user';
     styleUrls: ['./view-book.component.css']
 })
 export class ViewBookComponent implements OnInit {
+    i: number;
     book: Book;
     user: User;
     users: Array<User>;
     books: Array<Book>;
-    librarys: Array<Bibliotheque>;
+    librarys: Array<Bibliotheque> = [];
     billets: Array<Billet>;
-    waitinList: Array<Billet>;
-    waitListSize: number;
+    waitinList: Array<Billet> = [];
+    waitListSize = 0;
     authorities: string;
     billet: Billet;
+    cantBook = false;
+    userId: number;
 
     constructor(private token: TokenStorageService, private bookService: BookService, private route: Router,
                 private activatedRoute: ActivatedRoute, private libraryService: LibraryService,
@@ -43,7 +48,7 @@ export class ViewBookComponent implements OnInit {
     initBook() {
         this.activatedRoute.queryParams.subscribe(
             (params) => {
-                const id = params['id'];
+                const id = params.id;
                 if (id) {
                     this.bookService.getBook(id).subscribe(data => {
                         this.book = data;
@@ -67,17 +72,18 @@ export class ViewBookComponent implements OnInit {
             });
     }
 
-    private initWaitinList(id: number) {
-        this.bookService.getWaitList(id)
-            .subscribe(data => {
-                this.waitListSize = data;
-            }, error => {
-                console.log('error of waitlistsize', error);
+    private async initWaitinList(id: number) {
+        this.waitListSize = await this.bookService.getWaitList(id).toPromise();
+        this.userId = await this.userService.getProfilId(this.token.getLogin()).toPromise();
+        this.billetService.getWaitingList(id, this.waitListSize)
+            .subscribe(list => {
+                this.waitinList = list;
             });
-        console.log('WaitListSize : ', this.waitListSize);
-        this.billetService.getWaitingList(id, this.waitListSize).subscribe(
-            waitList => this.waitinList = waitList);
-        console.log('waitList:', this.waitinList);
+        this.billetService.getBorrows().subscribe(borrows => {
+            this.billets = borrows;
+            this.cantBook = this.billetService.updatecanBorrow(this.billets, this.book.id, this.userId);
+        });
+        console.log('cantbook', this.cantBook);
     }
 
     private initLibrarys() {
@@ -91,11 +97,17 @@ export class ViewBookComponent implements OnInit {
             });
     }
 
-    newBillet(id: number) {
+    newBillet(id
+                  :
+                  number
+    ) {
         this.route.navigate(['new-billet'], {queryParams: {id}});
     }
 
-    newBilletOnWaitList(id: number) {
+    newBilletOnWaitList(id
+                            :
+                            number
+    ) {
         this.route.navigate(['new-billet-waitlist'], {queryParams: {id}});
     }
 
@@ -105,7 +117,10 @@ export class ViewBookComponent implements OnInit {
         });
     }
 
-    viewBook(id: number) {
+    viewBook(id
+                 :
+                 number
+    ) {
         this.route.navigate(['book'], {queryParams: {id}});
     }
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Billet} from '../models/billet';
 import {FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 
 @Injectable({
@@ -12,6 +12,7 @@ import {Observable} from 'rxjs';
 export class BilletService {
 
     private borrowURL = 'http://localhost:9004/billet-microservice/api/billet-microservice';
+    private cantBook: boolean;
 
     constructor(private http: HttpClient) {
     }
@@ -66,5 +67,15 @@ export class BilletService {
             params: new HttpParams()
                 .set('id', id)
         });
+    }
+
+    updatecanBorrow(waitinList: Array<Billet>, bookId: number, userId: number) {
+        for (let entry of waitinList) {
+            if (entry.bookerId === userId.toString()) {
+                if (entry.bookId === bookId.toString()) {
+                    return this.cantBook = true;
+                }
+            }
+        }
     }
 }

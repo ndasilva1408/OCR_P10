@@ -13,12 +13,20 @@ export class UserService {
 
     private userURL = 'http://localhost:9004/client-microservice/api/client-microservice';
 
+
     constructor(private http: HttpClient, private token: TokenStorageService) {
     }
 
 
     getProfil(login: string) {
         return this.http.get<User>(this.userURL + '/myProfil',
+            {
+                params: new HttpParams()
+                    .set('login', this.token.getLogin())
+            });
+    }
+    getProfilId(login: string) {
+        return this.http.get<number>(this.userURL + '/myId',
             {
                 params: new HttpParams()
                     .set('login', this.token.getLogin())
@@ -41,7 +49,6 @@ export class UserService {
                 .set('id', id),
         });
     }
-
     deleteUser(idUser: any): Observable<{}> {
         return this.http.delete<User>(this.userURL + '/deleteClient', {
             params: new HttpParams()

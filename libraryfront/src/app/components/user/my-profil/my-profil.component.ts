@@ -24,9 +24,8 @@ export class MyProfilComponent implements OnInit {
     billets: Array<Billet>;
     books: Array<Book>;
     book: Book;
-    waitinList: Array<Billet>;
     billet: Billet;
-    currentDate: string;
+    currentDate: Date;
 
 
     constructor(private userService: UserService, private token: TokenStorageService,
@@ -51,6 +50,8 @@ export class MyProfilComponent implements OnInit {
     }
 
     private initBillet() {
+        this.currentDate = new Date();
+
         this.billetService.getBorrowsByUserID(this.user.id).subscribe(
             data => {
                 this.billets = data;
@@ -79,6 +80,7 @@ export class MyProfilComponent implements OnInit {
 
 
     }
+
     private initBook() {
         this.bookService.getBooks().subscribe(
             data => {

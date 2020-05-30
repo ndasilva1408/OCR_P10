@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,6 +52,27 @@ public class BilletServiceImpl implements BilletService {
     @Override
     public List<Billet> getBilletsByBook(String id) {
         return billetRepository.findBilletsByBookId(id);
+    }
+
+    @Override
+    public void isExtendable(Long id) throws ParseException {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+            List<Billet> billetArrayList;
+            Date currenDate = dateFormatter.parse(dateFormatter.format(new Date()));
+            billetArrayList = this.getBilletsByBook(id.toString());
+            for (int i = 0; i < billetArrayList.size(); i++) {
+                if (!billetArrayList.get(i).getIsExtend()) {
+                    if (billetArrayList.get(i).getEndDate().before(currenDate)) {
+                        billetArrayList.get(i).setIsExtendable(false);
+                        billetRepository.save(billetArrayList.get(i));
+                        System.out.println("le billet up "+ billetArrayList.get(i).getId() +" son statut " + billetArrayList.get(i).getIsExtendable());
+                    } else if (billetArrayList.get(i).getExtendDate().before(currenDate)) {
+                        billetArrayList.get(i).setIsExtendable(false);
+                        billetRepository.save(billetArrayList.get(i));
+                        System.out.println("le billet up pck extend "+ billetArrayList.get(i).getId());
+                    }
+                }
+        }
     }
 
 

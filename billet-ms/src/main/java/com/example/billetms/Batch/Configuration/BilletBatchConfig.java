@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +61,10 @@ public class BilletBatchConfig {
     }
 
     @Scheduled(cron = "0 * * * * *") // every minute
-    public void runTaskForWaiters() {
+    public void runTaskForWaiters() throws ParseException {
         books = DatabaseConnect.getBooksFromDB();
+        System.out.println("allez c parti");
+        this.updateExtendable();
         if (books.size() > 0) {
             for (Book book1 : books) {
                 if (book1.getQuantite() > 0) {
@@ -69,7 +72,6 @@ public class BilletBatchConfig {
                 }
             }
         }
-
     }
 
     public void remindWaitingClient(String bookId) {
@@ -78,16 +80,22 @@ public class BilletBatchConfig {
         System.out.println(waitingList);
 
 
-        Billet billet2 = waitingList.get(0);
+        try { Billet billet2 = waitingList.get(0);
+
+
 
         client = DatabaseConnect.getClientFromDB(billet2.getBookerId());
-        System.out.println("ClientDB ok " + client);
+
         book = DatabaseConnect.getBookFromDB(billet2.getBookId());
-        System.out.println("BookDB ok " + book);
+
         email = createEmailInformations(client, book, billet2);
-        System.out.println("email ok" + email);
+
 
         emailConfig.sendEmailForFirstOfWaitList(email);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 
@@ -108,6 +116,15 @@ public class BilletBatchConfig {
 
     private List<Billet> getAllBilletsOutDated() {
         return billetService.getOutDatedBillets();
+    }
+
+    private void updateExtendable() throws ParseException {
+        System.out.println("on est dans updateExtendable");
+        List<Billet> billetList = billetService.getAllBillets();
+        for (int i = 0; i < billetList.size(); i++) {
+            billetService.isExtendable((long) i);
+
+        }
     }
 
 

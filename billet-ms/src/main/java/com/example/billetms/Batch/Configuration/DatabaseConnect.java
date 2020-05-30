@@ -67,7 +67,7 @@ public class DatabaseConnect {
 
     public static List<Book> getBooksFromDB() {
         List<Book> books = new ArrayList<>();
-        Book book1 = new Book();
+
         try (Connection connection = DriverManager.getConnection(DB_BOOK_URL, USER, PASS)) {
             Class.forName(JDBC_DRIVER);
 
@@ -75,10 +75,13 @@ public class DatabaseConnect {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM public.book ");
 
             while (resultSet.next()) {
+                    int i = 0;
+                Book book1 = new Book();
                     book1.setId(resultSet.getLong("id"));
                     book1.setTitre(resultSet.getString("titre"));
                     book1.setQuantite(resultSet.getInt("quantite"));
-                    books.add(book1);
+                    books.add(i,book1);
+                    i++;
             }
 
             resultSet.close();

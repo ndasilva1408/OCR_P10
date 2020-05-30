@@ -37,10 +37,19 @@ public class Billet  {
     @Column(name = "is_extend")
     private Boolean isExtend;
 
-    @Column(name = "is_on_wait_list")
+      @Column(name = "is_on_wait_list")
     private Boolean isOnWaitList;
 
+    @Column(name = "is_extendable")
+    private Boolean isExtendable;
+
+    /* LIMIT DATE , set au moment de la réception du mail pour l'attente. DE PLUS , A check dans un autre batch, que la date d'autjourd'hui plus petite que limitDate , SINON SUPPR RESA .
+    @Column(name = "limit-date")
+    private Date limitDate;
+     */
 
 
-  
+
+
+
 }

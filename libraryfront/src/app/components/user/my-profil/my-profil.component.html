@@ -81,13 +81,14 @@
                                         <tbody>
                                         <tr class="clickableRow" *ngFor="let billet of billets">
                                             <td>{{billet.bookId}} </td>
-                                            <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
-                                            <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'dd/MM/yyyy'}} </td>
-                                            <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'dd/MM/yyyy'}}</td>
+
+                                               <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
+                                            <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'yyyy/MM/dd'}} </td>
+                                            <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'yyyy/MM/dd'}}</td>
                                             <td>{{billet.isExtend ? 'Non' : 'Oui'}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-info"
-                                                        *ngIf=" billet.isExtend == false && currentDate <= billet.endDate || currentDate <=billet.extendDate "
+                                                        *ngIf=" billet.isExtend == false && billet.isExtendable == true"
                                                         (click)="extendBorrow(this.billet.id)">
                                                     Prolonger l'emprunt
                                                 </button>

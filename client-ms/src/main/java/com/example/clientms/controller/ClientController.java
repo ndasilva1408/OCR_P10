@@ -41,6 +41,12 @@ public class ClientController {
         if(client==null) return ResponseEntity.noContent().build();
         return  new ResponseEntity<>(client,HttpStatus.ACCEPTED);
     }
+    @GetMapping(value = "/api/client-microservice/myId")
+    public ResponseEntity<Integer> loadId(@RequestParam(name = "login", defaultValue = "") String login){
+        Integer clientId = clientService.getClientId(login);
+        if(clientId==null) return ResponseEntity.noContent().build();
+        return  new ResponseEntity<>(clientId,HttpStatus.ACCEPTED);
+    }
 
 
   @DeleteMapping(value = "/api/client-microservice/deleteClient")

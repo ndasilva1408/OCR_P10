@@ -33,6 +33,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Integer getClientId(String login) {
+        Client client = clientRepository.findClientByLogin(login);
+       Integer clientId =  client.getId() != null ? client.getId().intValue() : null;
+        if (client == null) throw new RuntimeException("User not found");
+        return clientId;
+    }
+
+    @Override
     public Client newClient(ClientDTO clientDTO) {
         Client client = clientMapper.toDto(clientDTO);
         return clientRepository.save(client);
