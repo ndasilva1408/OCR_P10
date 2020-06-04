@@ -84,8 +84,8 @@
                                             <td>{{billet.bookId}} </td>
 
                                                <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
-                                            <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'yyyy/MM/dd'}} </td>
-                                            <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'yyyy/MM/dd'}}</td>
+                                            <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'dd/MM/yyyy'}} </td>
+                                            <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'dd/MM/yyyy'}}</td>
                                             <td>{{billet.isExtend ? 'Non' : 'Oui'}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-info"

@@ -9,6 +9,7 @@ import com.example.billetms.services.BilletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import projetn7.bookms.repository.BookRepository;
 import projetn7.bookms.services.BookService;
 
@@ -19,6 +20,7 @@ import java.util.*;
 
 
 @Component
+@Transactional
 public class BilletBatchConfig {
 
     Email email = new Email();
@@ -88,10 +90,6 @@ public class BilletBatchConfig {
 
         waitingList = billetService.getWaitingList(bookId);
 
-        System.out.println("Scheduled task for waitingList  work");
-        System.out.println(waitingList);
-
-
         try {
             Billet billet2 = waitingList.get(0);
 
@@ -106,7 +104,7 @@ public class BilletBatchConfig {
             if (billet2.getLimitDate() == null) {    //Set de la date limite pour la liste d'attente
                 billet2.setLimitDate(limit);
                 billetRepository.save(billet2);
-                DatabaseConnect.updateBookQte(bookId);
+             //   DatabaseConnect.updateBookQte(bookId);
 
 
             } else if (Long.parseLong(sdf.format(billet2.getLimitDate())) <= Long.parseLong(sdf.format(today))) {
@@ -142,7 +140,7 @@ public class BilletBatchConfig {
 
         List<Billet> billetList = billetService.getAllBillets();
         for (int i = 0; i < billetList.size(); i++) {
-            billetService.isExtendable((long) i);
+            billetService.isExtendable(billetList.get(i).getId());
 
         }
     }

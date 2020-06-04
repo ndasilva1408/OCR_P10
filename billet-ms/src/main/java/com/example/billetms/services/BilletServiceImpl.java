@@ -57,22 +57,22 @@ public class BilletServiceImpl implements BilletService {
     @Override
     public void isExtendable(Long id) throws ParseException {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-            List<Billet> billetArrayList;
+            Billet billet;
             Date currenDate = dateFormatter.parse(dateFormatter.format(new Date()));
-            billetArrayList = this.getBilletsByBook(id.toString());
-            for (int i = 0; i < billetArrayList.size(); i++) {
-                if (!billetArrayList.get(i).getIsExtend()) {
-                    if (billetArrayList.get(i).getEndDate().before(currenDate)) {
-                        billetArrayList.get(i).setIsExtendable(false);
-                        billetRepository.save(billetArrayList.get(i));
-                    } else if (billetArrayList.get(i).getExtendDate().before(currenDate)) {
-                        billetArrayList.get(i).setIsExtendable(false);
-                        billetRepository.save(billetArrayList.get(i));
+            billet = this.getBillet(id);
+                if (!billet.getIsExtend()) {
+                    if (billet.getEndDate().before(currenDate)) {
+                        billet.setIsExtendable(false);
+                        billetRepository.save(billet);
+                    }
+                }
+                else if (billet.getExtendDate().before(currenDate)) {
+                        billet.setIsExtendable(false);
+                        billetRepository.save(billet);
 
                     }
                 }
-        }
-    }
+
 
 
     @Override
@@ -91,6 +91,8 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setEndDate(LocalDateTime.now().plusWeeks(4));
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
+        billetDTO.setIsExtendable(true);
+        billetDTO.setIsOnWaitList(false);
         Billet billet = billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
@@ -103,6 +105,7 @@ public class BilletServiceImpl implements BilletService {
         billetDTO.setExtendDate(LocalDateTime.now().plusWeeks(8));
         billetDTO.setIsExtend(false);
         billetDTO.setIsOnWaitList(true);
+        billetDTO.setIsExtendable(false);
         Billet billet = billetMapper.fromDTO(billetDTO);
 
         return billetRepository.save(billet);
