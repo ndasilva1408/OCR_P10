@@ -72,7 +72,7 @@ export class BilletService {
     updatecanBorrow(waitinList: Array<Billet>, bookId: number, userId: number) {
         for (let entry of waitinList) {
             if (entry.bookerId === userId.toString()) {
-                if (entry.bookId === bookId.toString()) {
+                if (Number(entry.bookId) === bookId) {
                     return this.cantBook = true;
                 }
             }

@@ -76,6 +76,7 @@
                                             <th>Date de retour</th>
                                             <th>Possibilité d'étendre le prêt</th>
                                             <th>Actions</th>
+                                            <th>Annuler réservation</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -92,6 +93,15 @@
                                                         (click)="extendBorrow(this.billet.id)">
                                                     Prolonger l'emprunt
                                                 </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger"
+                                               (click) ="deleteBillet(this.billet.id, this.billet.bookId) ">
+                                                    <a href="/home">
+                                                    Supprimer
+                                                    </a>
+                                                </button>
+
                                             </td>
                                         </tr>
                                         </tbody>

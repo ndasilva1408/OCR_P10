@@ -4,15 +4,18 @@ import com.example.billetms.entities.Billet;
 import com.example.billetms.entities.Book;
 import com.example.billetms.entities.Client;
 import com.example.billetms.entities.Email;
+import com.example.billetms.repository.BilletRepository;
 import com.example.billetms.services.BilletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import projetn7.bookms.repository.BookRepository;
+import projetn7.bookms.services.BookService;
 
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Component
@@ -24,6 +27,8 @@ public class BilletBatchConfig {
     List<Billet> billetsOutDated = new ArrayList<>();
     List<Billet> waitingList = new ArrayList<>();
     List<Book> books = new ArrayList<>();
+    @Autowired
+    BilletRepository billetRepository;
 
 
     @Autowired
@@ -31,7 +36,8 @@ public class BilletBatchConfig {
 
     @Autowired
     EmailConfig emailConfig;
-
+    @Autowired
+    DatabaseConnect databaseConnect;
 
     @Scheduled(cron = "0 0 0 * * *") //Everyday at midnight
 
@@ -63,7 +69,6 @@ public class BilletBatchConfig {
     @Scheduled(cron = "0 * * * * *") // every minute
     public void runTaskForWaiters() throws ParseException {
         books = DatabaseConnect.getBooksFromDB();
-        System.out.println("allez c parti");
         this.updateExtendable();
         if (books.size() > 0) {
             for (Book book1 : books) {
@@ -75,31 +80,46 @@ public class BilletBatchConfig {
     }
 
     public void remindWaitingClient(String bookId) {
+        Date today = new Date();
+
+        TimeZone timeZone = TimeZone.getTimeZone(" Europe/Paris ");
+        Date limit = addDays(today, 2, timeZone);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
         waitingList = billetService.getWaitingList(bookId);
+
         System.out.println("Scheduled task for waitingList  work");
         System.out.println(waitingList);
 
 
-        try { Billet billet2 = waitingList.get(0);
+        try {
+            Billet billet2 = waitingList.get(0);
+
+            client = DatabaseConnect.getClientFromDB(billet2.getBookerId());
+
+            book = DatabaseConnect.getBookFromDB(billet2.getBookId());
+
+            email = createEmailInformations(client, book, billet2);
+
+            emailConfig.sendEmailForFirstOfWaitList(email);
+
+            if (billet2.getLimitDate() == null) {    //Set de la date limite pour la liste d'attente
+                billet2.setLimitDate(limit);
+                billetRepository.save(billet2);
+                DatabaseConnect.updateBookQte(bookId);
 
 
+            } else if (Long.parseLong(sdf.format(billet2.getLimitDate())) <= Long.parseLong(sdf.format(today))) {
+                billetService.deleteBillets(billet2.getId());
+            }
 
-        client = DatabaseConnect.getClientFromDB(billet2.getBookerId());
-
-        book = DatabaseConnect.getBookFromDB(billet2.getBookId());
-
-        email = createEmailInformations(client, book, billet2);
-
-
-        emailConfig.sendEmailForFirstOfWaitList(email);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
 
-    private Email createEmailInformations(Client client, Book book, Billet billet1) {
+    public Email createEmailInformations(Client client, Book book, Billet billet1) {
         Email emailToSend = new Email();
 
         emailToSend.setPrenom(client.getPrenom());
@@ -118,8 +138,8 @@ public class BilletBatchConfig {
         return billetService.getOutDatedBillets();
     }
 
-    private void updateExtendable() throws ParseException {
-        System.out.println("on est dans updateExtendable");
+    public void updateExtendable() throws ParseException {
+
         List<Billet> billetList = billetService.getAllBillets();
         for (int i = 0; i < billetList.size(); i++) {
             billetService.isExtendable((long) i);
@@ -127,7 +147,13 @@ public class BilletBatchConfig {
         }
     }
 
-
+    // Methode qui viens ajouter un nombre de jour a une date données
+    public Date addDays(Date date, int days, TimeZone tz) {
+        Calendar cal = new GregorianCalendar(tz);
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
 }
 
 

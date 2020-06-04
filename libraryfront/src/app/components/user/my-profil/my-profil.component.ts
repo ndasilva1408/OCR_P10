@@ -56,7 +56,7 @@ export class MyProfilComponent implements OnInit {
             data => {
                 this.billets = data;
                 this.billets.forEach(billet => {
-                    this.books.filter(book => ('' + book.id) === billet.bookId).forEach(book => billet.bookId = book.titre);
+                    this.books.filter(book => (book.id) === billet.bookId).forEach(book => billet.bookId = book.id);
                 });
             });
     }
@@ -93,6 +93,21 @@ export class MyProfilComponent implements OnInit {
         this.billetService.updateBorrowStatus(id).subscribe(res => {
             this.initBillet();
         });
+    }
+
+    deleteBillet(id: number, bookId: number) {
+        this.bookService.upBookQty(bookId).subscribe(
+            rep =>  {
+            }),
+            err => {
+            console.log('error: ', err.error.message);
+            };
+        this.billetService.deleteBorrow(id).subscribe(
+            response => {
+            }),
+            err => {
+                console.log('error: ', err.error.message);
+            };
     }
 }
 

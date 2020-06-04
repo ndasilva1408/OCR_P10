@@ -53,6 +53,10 @@ export class BookService {
         console.log('id to update', bookId);
         return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
     }
+    upBookQty(bookId: any) {
+        console.log('id to up', bookId);
+        return this.http.put<Book>(this.bookURL + '/upBookQty', {}, {params: {bookId: bookId}});
+    }
 
     updateBookPositionWaitList(bookId: any) {
         console.log('id to update', bookId);

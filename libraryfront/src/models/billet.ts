@@ -1,7 +1,7 @@
 export interface Billet {
  id?: number;
  bookerId?: string;
- bookId?: string;
+ bookId?: number;
  biblioId?: string;
  provenance?: string;
  bookingDate?: Date;

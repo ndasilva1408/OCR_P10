@@ -97,17 +97,11 @@ export class ViewBookComponent implements OnInit {
             });
     }
 
-    newBillet(id
-                  :
-                  number
-    ) {
+    newBillet(id: number) {
         this.route.navigate(['new-billet'], {queryParams: {id}});
     }
 
-    newBilletOnWaitList(id
-                            :
-                            number
-    ) {
+    newBilletOnWaitList(id: number) {
         this.route.navigate(['new-billet-waitlist'], {queryParams: {id}});
     }
 

@@ -1,13 +1,13 @@
 package com.example.billetms.entities;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
     private  Long id;
 

@@ -110,7 +110,7 @@ export class NewBilletComponent implements OnInit {
             data => {
                 this.billets = data;
                 this.billets.forEach(billet => {
-                    this.books.filter(book => ('' + book.id) === billet.bookId).forEach(book => billet.bookId = book.titre);
+                    this.books.filter(book => ( book.id) === billet.bookId).forEach(book => billet.bookId = book.id);
                 });
             });
     }

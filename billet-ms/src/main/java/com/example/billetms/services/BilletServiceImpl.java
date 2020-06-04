@@ -65,11 +65,10 @@ public class BilletServiceImpl implements BilletService {
                     if (billetArrayList.get(i).getEndDate().before(currenDate)) {
                         billetArrayList.get(i).setIsExtendable(false);
                         billetRepository.save(billetArrayList.get(i));
-                        System.out.println("le billet up "+ billetArrayList.get(i).getId() +" son statut " + billetArrayList.get(i).getIsExtendable());
                     } else if (billetArrayList.get(i).getExtendDate().before(currenDate)) {
                         billetArrayList.get(i).setIsExtendable(false);
                         billetRepository.save(billetArrayList.get(i));
-                        System.out.println("le billet up pck extend "+ billetArrayList.get(i).getId());
+
                     }
                 }
         }
@@ -120,7 +119,6 @@ public class BilletServiceImpl implements BilletService {
     @Override
     public void deleteBillets(Long id) {
         billetRepository.deleteById(id);
-
     }
 
 
