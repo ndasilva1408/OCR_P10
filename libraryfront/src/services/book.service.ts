@@ -3,7 +3,6 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Book} from '../models/book';
-import {Billet} from "../models/billet";
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +31,7 @@ export class BookService {
     getBooks(): Observable<Array<Book>> {
         return this.http.get<Array<Book>>(this.bookURL + '/getAll');
     }
+
     getWaitList(id: any): Observable<number> {
         return this.http.get<number>(this.bookURL + '/getBookWaitingListSize', {
             params: new HttpParams()
@@ -53,6 +53,7 @@ export class BookService {
         console.log('id to update', bookId);
         return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
     }
+
     upBookQty(bookId: any) {
         console.log('id to up', bookId);
         return this.http.put<Book>(this.bookURL + '/upBookQty', {}, {params: {bookId: bookId}});
@@ -85,4 +86,12 @@ export class BookService {
         });
     }
 
+    setWaitinPosition(id: number, waitListSize: number) {
+        let params = new HttpParams();
+        params = params.append('id', JSON.stringify(id));
+        params = params.append('waitListSize', JSON.stringify(waitListSize));
+        return this.http.put(this.bookURL + '/updateWaitinPosition?', {}, {
+            params
+        });
+    }
 }

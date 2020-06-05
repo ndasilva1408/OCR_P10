@@ -27,6 +27,7 @@ export class ViewBookComponent implements OnInit {
     billets: Array<Billet>;
     waitinList: Array<Billet> = [];
     waitListSize = 0;
+    waitListLenght = 0;
     authorities: string;
     billet: Billet;
     cantBook = false;
@@ -102,6 +103,8 @@ export class ViewBookComponent implements OnInit {
     }
 
     newBilletOnWaitList(id: number) {
+        this.bookService.setWaitinPosition(this.book.id, this.waitinList.length).subscribe();
+        console.log('bookPosition' , this.book.positionWaitList)
         this.route.navigate(['new-billet-waitlist'], {queryParams: {id}});
     }
 
@@ -111,10 +114,7 @@ export class ViewBookComponent implements OnInit {
         });
     }
 
-    viewBook(id
-                 :
-                 number
-    ) {
+    viewBook(id: number) {
         this.route.navigate(['book'], {queryParams: {id}});
     }
 

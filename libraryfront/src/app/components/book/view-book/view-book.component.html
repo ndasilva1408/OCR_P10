@@ -67,7 +67,7 @@
                                 <td *ngIf="bookS?.quantite == 0 && waitinList?.length < bookS.qtyMax && token.getLogin()!=null && !cantBook ">
                                     <a [title]="bookS?.titre + ' accès réservation'" href="javascript:void(0)"
                                        (click)="newBilletOnWaitList(this.bookS.id)">Rejoindre liste d'attente
-                                        (Taille actuelle de la liste: {{bookS?.positionWaitList}})</a>
+                                        (Taille actuelle de la liste: {{bookS.positionWaitList}})</a>
                                 </td>
 
                                 <td *ngIf="cantBook">
