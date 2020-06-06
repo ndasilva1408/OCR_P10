@@ -9,6 +9,7 @@ import {BookService} from '../../../../services/book.service';
 import {Billet} from '../../../../models/billet';
 import {Book} from '../../../../models/book';
 import {AuthService} from '../../../../services/security/auth.service';
+import {DatePipe, getLocaleDateFormat} from '@angular/common';
 
 @Component({
     selector: 'app-my-profil',
@@ -16,16 +17,17 @@ import {AuthService} from '../../../../services/security/auth.service';
     styleUrls: ['./my-profil.component.css']
 })
 export class MyProfilComponent implements OnInit {
-
     forms: FormGroup;
     user: User;
     billets: Array<Billet>;
     books: Array<Book>;
+    currentDate: string;
 
 
     constructor(private userService: UserService, private token: TokenStorageService,
                 private router: Router, private billetService: BilletService,
-                private bookService: BookService, private authService: AuthService) {
+                private bookService: BookService, private authService: AuthService,
+                private datePipe: DatePipe) {
     }
 
     ngOnInit() {
@@ -44,6 +46,8 @@ export class MyProfilComponent implements OnInit {
     }
 
     private initBillet() {
+        this.currentDate = new Date().toISOString();
+
         this.billetService.getBorrowsByUserID(this.user.id).subscribe(
             data => {
                 this.billets = data;
@@ -51,7 +55,10 @@ export class MyProfilComponent implements OnInit {
                     this.books.filter(book => ('' + book.id) === billet.bookId).forEach(book => billet.bookId = book.titre);
                 });
             });
+
+
     }
+
 
     deleteUser(user: User) {
         this.userService.deleteUser(this.user.id).subscribe(
@@ -72,7 +79,6 @@ export class MyProfilComponent implements OnInit {
 
 
     }
-
     private initBook() {
         this.bookService.getBooks().subscribe(
             data => {
