@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 @Entity
 @Getter
@@ -18,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Billet {
+public class Billet  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,9 +31,26 @@ public class Billet {
     private Date endDate;
 
     private Date extendDate;
+    @Column(name = "biblio_id")
+    private String biblioId;
 
+    @Column(name = "is_extend")
     private Boolean isExtend;
 
+      @Column(name = "is_on_wait_list")
     private Boolean isOnWaitList;
+
+    @Column(name = "is_extendable")
+    private Boolean isExtendable;
+
+    // LIMIT DATE , set au moment de la réception du mail pour l'attente. DE PLUS , A check dans un autre batch, que la date d'autjourd'hui plus petite que limitDate , SINON SUPPR RESA .
+    @Column(name = "limit_date")
+    private Date limitDate;
+
+
+
+
+
+
 
 }

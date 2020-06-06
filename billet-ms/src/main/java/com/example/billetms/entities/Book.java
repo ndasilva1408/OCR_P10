@@ -1,15 +1,16 @@
 package com.example.billetms.entities;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.List;
+import lombok.*;
+
 
 @Data
 @Getter
 @Setter
-public class Book {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Book  {
+
     Long id;
     Long provenance;
     String titre;
@@ -21,4 +22,8 @@ public class Book {
     String description;
     String urlimg;
 
+
 }
+
+
+

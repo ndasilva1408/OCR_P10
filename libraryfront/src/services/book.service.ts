@@ -9,7 +9,6 @@ import {Book} from '../models/book';
 })
 
 export class BookService {
-
     private bookURL = 'http://localhost:9004/book-microservice/api/book-microservice';
 
     constructor(private http: HttpClient) {
@@ -33,6 +32,13 @@ export class BookService {
         return this.http.get<Array<Book>>(this.bookURL + '/getAll');
     }
 
+    getWaitList(id: any): Observable<number> {
+        return this.http.get<number>(this.bookURL + '/getBookWaitingListSize', {
+            params: new HttpParams()
+                .set('id', id)
+        });
+    }
+
 
     saveBook(form: FormGroup): Observable<FormGroup> {
         console.log('book form: ', form.value);
@@ -43,9 +49,33 @@ export class BookService {
         return this.http.put<Book>(this.bookURL + '/updateBook', form.value);
     }
 
+    updateBookQty(bookId: any) {
+        console.log('id to update', bookId);
+        return this.http.put<Book>(this.bookURL + '/updateBookQty', {}, {params: {bookId: bookId}});
+    }
+
+    upBookQty(bookId: any) {
+        console.log('id to up', bookId);
+        return this.http.put<Book>(this.bookURL + '/upBookQty', {}, {params: {bookId: bookId}});
+    }
+
+    updateBookPositionWaitList(bookId: any) {
+        console.log('id to update', bookId);
+        return this.http.put<Book>(this.bookURL + '/updatePositionWaitListAdd', {}, {params: {bookId: bookId}});
+    }
+
+
     updateBookStatus(book: Book): Observable<Book> {
         console.log('book to update status', book);
         return this.http.put<Book>(this.bookURL + '/updateBookStatus', book);
+    }
+
+    generateBookWaitingList(id: any) {
+        return this.http.get<Array<Book>>(this.bookURL + '/getBookWaitingList', {
+            params: new HttpParams()
+                .set('id', id),
+        });
+
     }
 
     deleteBook(idBook: any): Observable<{}> {
@@ -56,4 +86,12 @@ export class BookService {
         });
     }
 
+    setWaitinPosition(id: number, waitListSize: number) {
+        let params = new HttpParams();
+        params = params.append('id', JSON.stringify(id));
+        params = params.append('waitListSize', JSON.stringify(waitListSize));
+        return this.http.put(this.bookURL + '/updateWaitinPosition?', {}, {
+            params
+        });
+    }
 }

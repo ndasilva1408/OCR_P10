@@ -13,6 +13,7 @@ import {BookEditComponent} from './components/book/book-edit/book-edit.component
 import {LibraryEditComponent} from './components/library/library-edit/library-edit.component';
 import {BilletEditComponent} from './components/book/billet-edit/billet-edit.component';
 import {NewBilletComponent} from './components/book/new-billet/new-billet.component';
+import {NewBilletWaitlistComponent} from './components/book/new-billet-waitlist/new-billet-waitlist.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path: 'edit-library', component: LibraryEditComponent},
   { path: 'edit-billet', component: BilletEditComponent},
   { path: '404', component: PageNotFoundComponent},
-  {path : 'new-billet' , component: NewBilletComponent}
+  {path : 'new-billet' , component: NewBilletComponent},
+  {path: 'new-billet-waitlist' , component: NewBilletWaitlistComponent}
 
 ];
 

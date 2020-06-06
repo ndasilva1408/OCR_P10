@@ -1,22 +1,22 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../../../models/user';
-import {BookService} from '../../../../services/book.service';
 import {Book} from '../../../../models/book';
-import {UserService} from '../../../../services/user.service';
-import {TokenStorageService} from '../../../../services/security/token-storage.service';
-import {BilletService} from '../../../../services/billet.service';
 import {Billet} from '../../../../models/billet';
-import {LibraryService} from '../../../../services/library.service';
 import {Bibliotheque} from '../../../../models/bibliotheque';
+import {TokenStorageService} from '../../../../services/security/token-storage.service';
+import {BookService} from '../../../../services/book.service';
+import {BilletService} from '../../../../services/billet.service';
+import {UserService} from '../../../../services/user.service';
+import {LibraryService} from '../../../../services/library.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-    selector: 'app-new-billet',
-    templateUrl: './new-billet.component.html',
-    styleUrls: ['./new-billet.component.css']
+    selector: 'app-new-billet-waitlist',
+    templateUrl: './new-billet-waitlist.component.html',
+    styleUrls: ['./new-billet-waitlist.component.css']
 })
-export class NewBilletComponent implements OnInit {
+export class NewBilletWaitlistComponent implements OnInit {
     forms: FormGroup;
     user: User;
     book: Book;
@@ -25,8 +25,6 @@ export class NewBilletComponent implements OnInit {
     billet: Billet;
     books: Array<Book>;
     librarys: Array<Bibliotheque>;
-    selectedBiblio = [];
-    bookId: number;
 
 
     private messageError: string;
@@ -76,12 +74,12 @@ export class NewBilletComponent implements OnInit {
 
     save() {
         this.saveBillet();
-        this.updateBookQty();
     }
 
     saveBillet() {
         console.log(this.forms.value);
-        this.billetService.saveBorrow(this.forms)
+        this.bookService.updateBookPositionWaitList(this.forms);
+        this.billetService.saveBorrowForWaitList(this.forms)
             .subscribe(
                 response => {
                     console.log('response: ', response);
@@ -93,18 +91,6 @@ export class NewBilletComponent implements OnInit {
         this.router.navigate(['home']);
     }
 
-    updateBookQty() {
-        this.bookId = this.book.id;
-        this.bookService.updateBookQty(this.bookId)
-            .subscribe(response => {
-                    console.log('response: ', response);
-                },
-                error => {
-                    console.log('Error: ', error.error.message);
-                    this.messageError = error.error.message;
-                });
-    }
-
     private initBillet() {
         this.billetService.getBorrowsByUserID(this.user.id).subscribe(
             data => {
@@ -114,6 +100,7 @@ export class NewBilletComponent implements OnInit {
                 });
             });
     }
+
     private initListBook() {
         this.bookService.getBooks().subscribe(
             data => {
@@ -125,6 +112,7 @@ export class NewBilletComponent implements OnInit {
                 console.log('data initListBook: ', this.books);
             });
     }
+
     private initLibrarys() {
         this.libraryService.getLibrarys().subscribe(
             data => {

@@ -9,6 +9,7 @@ import {BookService} from '../../../../services/book.service';
 import {Billet} from '../../../../models/billet';
 import {Book} from '../../../../models/book';
 import {AuthService} from '../../../../services/security/auth.service';
+import {Bibliotheque} from '../../../../models/bibliotheque';
 import {DatePipe, getLocaleDateFormat} from '@angular/common';
 
 @Component({
@@ -17,11 +18,14 @@ import {DatePipe, getLocaleDateFormat} from '@angular/common';
     styleUrls: ['./my-profil.component.css']
 })
 export class MyProfilComponent implements OnInit {
+
     forms: FormGroup;
     user: User;
     billets: Array<Billet>;
     books: Array<Book>;
-    currentDate: string;
+    book: Book;
+    billet: Billet;
+    currentDate: Date;
 
 
     constructor(private userService: UserService, private token: TokenStorageService,
@@ -46,19 +50,20 @@ export class MyProfilComponent implements OnInit {
     }
 
     private initBillet() {
-        this.currentDate = new Date().toISOString();
+        this.currentDate = new Date();
 
         this.billetService.getBorrowsByUserID(this.user.id).subscribe(
             data => {
                 this.billets = data;
                 this.billets.forEach(billet => {
-                    this.books.filter(book => ('' + book.id) === billet.bookId).forEach(book => billet.bookId = book.titre);
+                    this.books.filter(book => (book.id) === billet.bookId).forEach(book => billet.bookId = book.id);
                 });
             });
-
-
     }
 
+    viewBook(id: number) {
+        this.router.navigate(['book'], {queryParams: {id}});
+    }
 
     deleteUser(user: User) {
         this.userService.deleteUser(this.user.id).subscribe(
@@ -79,6 +84,7 @@ export class MyProfilComponent implements OnInit {
 
 
     }
+
     private initBook() {
         this.bookService.getBooks().subscribe(
             data => {
@@ -91,6 +97,21 @@ export class MyProfilComponent implements OnInit {
         this.billetService.updateBorrowStatus(id).subscribe(res => {
             this.initBillet();
         });
+    }
+
+    deleteBillet(id: number, bookId: number) {
+        this.bookService.upBookQty(bookId).subscribe(
+            rep =>  {
+            }),
+            err => {
+            console.log('error: ', err.error.message);
+            };
+        this.billetService.deleteBorrow(id).subscribe(
+            response => {
+            }),
+            err => {
+                console.log('error: ', err.error.message);
+            };
     }
 }
 

@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers("/api/auth/signup", "/api/auth/signin" ,
                         "/bibliotheque-microservice/api/bibliotheque-microservice/getAll",
+                        "/billet-microservice/api/billet-microservice/**",
                         "/book-microservice/api/book-microservice/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

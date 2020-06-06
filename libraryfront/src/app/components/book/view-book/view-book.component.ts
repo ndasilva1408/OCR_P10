@@ -4,9 +4,13 @@ import {BookService} from '../../../../services/book.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LibraryService} from '../../../../services/library.service';
 import {Bibliotheque} from '../../../../models/bibliotheque';
-import {NewBilletComponent} from '../new-billet/new-billet.component';
 import {Billet} from '../../../../models/billet';
 import {TokenStorageService} from '../../../../services/security/token-storage.service';
+import {BilletService} from '../../../../services/billet.service';
+import {UserService} from '../../../../services/user.service';
+import {User} from '../../../../models/user';
+import {delay} from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-view-book',
@@ -14,30 +18,43 @@ import {TokenStorageService} from '../../../../services/security/token-storage.s
     styleUrls: ['./view-book.component.css']
 })
 export class ViewBookComponent implements OnInit {
-
+    i: number;
     book: Book;
+    user: User;
+    users: Array<User>;
     books: Array<Book>;
-    librarys: Array<Bibliotheque>;
+    librarys: Array<Bibliotheque> = [];
+    billets: Array<Billet>;
+    waitinList: Array<Billet> = [];
+    waitListSize = 0;
+    waitListLenght = 0;
     authorities: string;
+    billet: Billet;
+    cantBook = false;
+    userId: number;
 
     constructor(private token: TokenStorageService, private bookService: BookService, private route: Router,
-                private activatedRoute: ActivatedRoute, private libraryService: LibraryService) {
+                private activatedRoute: ActivatedRoute, private libraryService: LibraryService,
+                private billetService: BilletService, private userService: UserService) {
     }
 
     ngOnInit() {
+        this.initUser();
         this.initLibrarys();
         this.initBook();
+        this.initUsers();
         this.authorities = this.token.getAuthorities();
     }
 
     initBook() {
         this.activatedRoute.queryParams.subscribe(
             (params) => {
-                const id = params['id'];
+                const id = params.id;
                 if (id) {
                     this.bookService.getBook(id).subscribe(data => {
                         this.book = data;
                         this.initListBook();
+                        this.initWaitinList(id);
                     });
                 }
             });
@@ -56,11 +73,25 @@ export class ViewBookComponent implements OnInit {
             });
     }
 
+    private async initWaitinList(id: number) {
+        this.waitListSize = await this.bookService.getWaitList(id).toPromise();
+        this.userId = await this.userService.getProfilId(this.token.getLogin()).toPromise();
+        this.billetService.getWaitingList(id, this.waitListSize)
+            .subscribe(list => {
+                this.waitinList = list;
+            });
+        this.billetService.getBorrows().subscribe(borrows => {
+            this.billets = borrows;
+            this.cantBook = this.billetService.updatecanBorrow(this.billets, this.book.id, this.userId);
+        });
+        console.log('cantbook', this.cantBook);
+    }
+
     private initLibrarys() {
         this.libraryService.getLibrarys().subscribe(
             data => {
                 this.librarys = data;
-                console.log('data : ', data);
+                console.log('dataLIB : ', data);
             },
             err => {
                 console.log('error: ', err.error.message);
@@ -71,4 +102,27 @@ export class ViewBookComponent implements OnInit {
         this.route.navigate(['new-billet'], {queryParams: {id}});
     }
 
+    newBilletOnWaitList(id: number) {
+        this.bookService.setWaitinPosition(this.book.id, this.waitinList.length).subscribe();
+        console.log('bookPosition' , this.book.positionWaitList)
+        this.route.navigate(['new-billet-waitlist'], {queryParams: {id}});
+    }
+
+    initUser() {
+        this.userService.getProfil(this.token.getLogin()).subscribe(data => {
+            this.user = data;
+        });
+    }
+
+    viewBook(id: number) {
+        this.route.navigate(['book'], {queryParams: {id}});
+    }
+
+    initUsers() {
+        this.userService.getUsers().subscribe(
+            data => {
+                this.users = data;
+            }
+        );
+    }
 }

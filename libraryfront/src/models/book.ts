@@ -2,6 +2,7 @@ export interface Book {
     id?: number;
     titre?: string;
     quantite?: number;
+    qtyMax?: number;
     edition?: string;
     auteur?: string;
     anneeParution?: string;
@@ -9,6 +10,7 @@ export interface Book {
     urlimg?: string;
     disponible?: boolean;
     provenance?: string;
+    positionWaitList?: number;
 }
 
 

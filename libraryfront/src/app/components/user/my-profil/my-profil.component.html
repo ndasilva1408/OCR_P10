@@ -76,21 +76,32 @@
                                             <th>Date de retour</th>
                                             <th>Possibilité d'étendre le prêt</th>
                                             <th>Actions</th>
+                                            <th>Annuler réservation</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="clickableRow" *ngFor="let billet of billets">
-                                            <td>{{billet.bookId}} </td>
-                                            <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
+                                            <td> <a href="javascript:void(0)" (click)="viewBook(this.billet.bookId)" > {{billet.bookId}} </a></td>
+
+                                               <td>{{billet.bookingDate | date: 'dd/MM/yyyy'}}</td>
                                             <td *ngIf="billet.isExtend == false">{{billet.endDate | date: 'dd/MM/yyyy'}} </td>
                                             <td *ngIf="billet.isExtend == true">{{billet.extendDate | date: 'dd/MM/yyyy'}}</td>
                                             <td>{{billet.isExtend ? 'Non' : 'Oui'}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-info"
-                                                        *ngIf=" billet.isExtend == false && currentDate <= billet.endDate || currentDate <=billet.extendDate "
+                                                        *ngIf=" billet.isExtend == false && billet.isExtendable == true"
                                                         (click)="extendBorrow(this.billet.id)">
                                                     Prolonger l'emprunt
                                                 </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger"
+                                               (click) ="deleteBillet(this.billet.id, this.billet.bookId) ">
+                                                    <a href="/home">
+                                                    Supprimer
+                                                    </a>
+                                                </button>
+
                                             </td>
                                         </tr>
                                         </tbody>
