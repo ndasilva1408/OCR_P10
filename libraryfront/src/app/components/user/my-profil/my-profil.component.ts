@@ -61,6 +61,10 @@ export class MyProfilComponent implements OnInit {
             });
     }
 
+    viewBook(id: number) {
+        this.router.navigate(['book'], {queryParams: {id}});
+    }
+
     deleteUser(user: User) {
         this.userService.deleteUser(this.user.id).subscribe(
             response => {

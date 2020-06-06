@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class BilletServiceImpl implements BilletService {
                     }
                 }
             }
+        waitingList.sort(Comparator.comparingLong(Billet::getId));
 
             return waitingList;
         }

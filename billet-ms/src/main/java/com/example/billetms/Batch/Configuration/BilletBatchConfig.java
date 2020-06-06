@@ -104,7 +104,7 @@ public class BilletBatchConfig {
             if (billet2.getLimitDate() == null) {    //Set de la date limite pour la liste d'attente
                 billet2.setLimitDate(limit);
                 billetRepository.save(billet2);
-             //   DatabaseConnect.updateBookQte(bookId);
+                System.out.println("billet update " + billet2.getId());
 
 
             } else if (Long.parseLong(sdf.format(billet2.getLimitDate())) <= Long.parseLong(sdf.format(today))) {

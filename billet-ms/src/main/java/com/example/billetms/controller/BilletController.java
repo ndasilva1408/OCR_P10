@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -77,8 +74,10 @@ public class BilletController {
         ArrayList<Billet> newWaitingList = new ArrayList<>();
         List<Billet> billetList = billetService.getBilletsByBook(id);
         for (int i = 0; i < billetList.size(); i++)
-            if (billetList.get(i).getIsOnWaitList())
+            if (billetList.get(i).getIsOnWaitList()) {
                 newWaitingList.add(billetList.get(i));
+            }
+        newWaitingList.sort(Comparator.comparingLong(Billet::getId));
         return new ResponseEntity<>(newWaitingList, HttpStatus.OK);
     }
 
